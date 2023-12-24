@@ -13,5 +13,12 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <div class="content-container">
+    <h2>Resource Usage</h2>
+    <ng-container *ngIf="!!startedAt">
+      <h4>Day started: {{startedAt}} </h4>
+      <ion-button (click)="reset()">Reset day</ion-button>
+    </ng-container>
+    <ion-button *ngIf="!startedAt" (click)="startDay()">Start Day</ion-button>
+  </div>
 </ion-content>

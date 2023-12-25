@@ -42,7 +42,9 @@ export class UsageTableComponent implements OnInit {
       }
       this.usage.forEach((usageEntry, index) => {
         const epochTime = startTimeDate.getTime() + (index * this.intervalTimeInMilliseconds);
-        usageEntry.time = this.usageService.convertDate(new Date(epochTime))
+        const localDate = new Date(epochTime)
+        const cet = localDate.toLocaleString('default', { hour: '2-digit', minute: 'numeric', hour12: false, timeZone: 'Europe/Berlin' })
+        usageEntry.time = this.usageService.convertDate(localDate) + '(' + cet + ')';
         if (epochTime < this.currentTime) {
           this.beforeUsage.push(usageEntry)
         }

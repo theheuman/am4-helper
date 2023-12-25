@@ -15,11 +15,18 @@ export interface ResourceUsage {
   providedIn: 'root'
 })
 export class UsageService {
+  private startTime: number;
+  private endTime: number;
 
-  constructor() { }
+  constructor() {
+    this.startTime = 0;
+    this.endTime = 0;
+  }
 
   async getStartTime(): Promise<number> {
-
+    if (this.startTime) {
+      return this.startTime;
+    }
     const storageResult = await Preferences.get({
       key: storageKey,
     })
@@ -36,11 +43,20 @@ export class UsageService {
       value: now + '',
     })
 
+    this.startTime = now;
+    const sixteenHours = 57600000
+    this.endTime = now + sixteenHours;
     return now;
 
   }
 
+  getEndTime() {
+    return this.endTime;
+  }
+
   reset() {
+    this.startTime = 0;
+    this.endTime = 0;
     return Preferences.remove({
       key: storageKey,
     })

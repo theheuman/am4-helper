@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/angular/standalone';
 import {NgIf} from "@angular/common";
-import {ResourceUsage, UsageService} from "../services/usage.service";
+import { UsageService} from "../services/usage.service";
 import {UsageTableComponent} from "./components/usage-table/usage-table.component";
 
 @Component({
@@ -29,8 +29,10 @@ export class Tab1Page {
     };
 
     usageService.getStartTime().then((milliseconds) => {
-      this.calculateTimes(milliseconds)
+      this.startedAt = this.usageService.convertDate(new Date(milliseconds));
+      this.endAt = this.usageService.convertDate(new Date(this.usageService.getEndTime()))
     })
+
     setInterval(() => {
       const now = Date.now()
       this.currentTime = {
@@ -42,14 +44,9 @@ export class Tab1Page {
 
   startDay() {
     this.usageService.setStartTime().then((milliseconds) => {
-      this.calculateTimes(milliseconds)
+      this.startedAt = this.usageService.convertDate(new Date(milliseconds));
+      this.endAt = this.usageService.convertDate(new Date(this.usageService.getEndTime()))
     })
-  }
-
-  calculateTimes(milliseconds: number) {
-    this.startedAt = this.usageService.convertDate(new Date(milliseconds));
-    const sixteenHours = 57600000
-    this.endAt = this.usageService.convertDate(new Date(milliseconds + sixteenHours))
   }
 
   reset() {

@@ -1,7 +1,22 @@
 table {
+  width: 500px;
+
+  td {
+    border: 1px solid var(--ion-color-primary);
+    padding: 10px;
+  }
+
+  thead {
+    td {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+
   tr {
     td {
-      padding: 10px;
+      text-align: right;
     }
   }
 }

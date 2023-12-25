@@ -19,5 +19,15 @@ table {
       text-align: right;
     }
   }
+  tr.separator {
+    td {
+      border: none;
+
+      a {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
 }
 

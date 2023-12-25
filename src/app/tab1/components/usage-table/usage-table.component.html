@@ -4,15 +4,33 @@
     Hour
   </td>
   <td>
-    Fuel
+    Fuel needed
   </td>
   <td>
-    Quotas
+    Quotas needed
   </td>
   </thead>
-  <tr *ngFor="let usageEntry of usage; index as i">
+  <ng-container *ngIf="showBefore">
+    <tr *ngFor="let usageEntry of beforeUsage">
+      <td>
+        {{ usageEntry.time }}
+      </td>
+      <td>
+        {{ usageEntry.usage.fuel | number }}
+      </td>
+      <td>
+        {{ usageEntry.usage.co2 | number }}
+      </td>
+    </tr>
+  </ng-container>
+  <tr class="separator">
+    <td></td>
+    <td><a (click)="toggleBeforeTable()">{{ currentToggleText }}</a> </td>
+    <td></td>
+  </tr>
+  <tr *ngFor="let usageEntry of afterUsage">
     <td>
-      {{(i * 30) }}
+      {{ usageEntry.time }}
     </td>
     <td>
       {{ usageEntry.usage.fuel | number }}

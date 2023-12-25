@@ -20,7 +20,7 @@
       <a (click)="reset()">Reset day</a>
       <h4>Current time: {{currentTime.hourMinutes}}</h4>
       <h2>Upcoming Usage</h2>
-      <app-usage-table [currentTime]="currentTime.milliseconds" />
+      <app-usage-table [currentTime]="currentTime.milliseconds"/>
     </ng-container>
     <ion-button *ngIf="!startedAt" (click)="startDay()">Start Day</ion-button>
   </div>

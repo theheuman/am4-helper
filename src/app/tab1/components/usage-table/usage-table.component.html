@@ -1,0 +1,24 @@
+<table>
+  <thead>
+  <th>
+    hour
+  </th>
+  <th>
+    fuel
+  </th>
+  <th>
+    co2
+  </th>
+  </thead>
+  <tr *ngFor="let usageEntry of usage; index as i">
+    <td>
+      {{(i * 30) }}
+    </td>
+    <td>
+      {{ usageEntry.usage.fuel | number }}
+    </td>
+    <td>
+      {{ usageEntry.usage.co2 | number }}
+    </td>
+  </tr>
+</table>

@@ -1,55 +1,61 @@
 import { Component } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/angular/standalone';
-import {Preferences} from "@capacitor/preferences";
 import {NgIf} from "@angular/common";
-
-const storageKey = 'dayStart';
+import {ResourceUsage, UsageService} from "../services/usage.service";
+import {UsageTableComponent} from "./components/usage-table/usage-table.component";
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonButton, NgIf],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonButton, NgIf, UsageTableComponent],
 })
 export class Tab1Page {
   startedAt: string;
+  currentTime: {
+    milliseconds: number;
+    hourMinutes: string;
+  };
+  endAt: string;
 
-  constructor() {
+  constructor(private usageService: UsageService) {
     this.startedAt = '';
-    Preferences.get({
-      key: storageKey
-    }).then((result) => {
-      const milliseconds = Number(result.value)
-      if (milliseconds) {
-        this.startedAt = this.convertDate(new Date(milliseconds));
-      }
+    this.endAt = '';
+    const now = Date.now()
+    this.currentTime = {
+      milliseconds: now,
+      hourMinutes: usageService.convertDate(new Date(now))
+    };
+
+    usageService.getStartTime().then((milliseconds) => {
+      this.calculateTimes(milliseconds)
     })
+    setInterval(() => {
+      const now = Date.now()
+      this.currentTime = {
+        milliseconds: now,
+        hourMinutes: usageService.convertDate(new Date(now))
+      };
+    }, 20000);
   }
 
   startDay() {
-    const now = Date.now();
-    const nowDate = new Date(now)
-
-    Preferences.set({
-      key: storageKey,
-      value: now + '',
-    }).then(() => {
-      console.log("Day started!", nowDate)
-      this.startedAt = this.convertDate(nowDate);
+    this.usageService.setStartTime().then((milliseconds) => {
+      this.calculateTimes(milliseconds)
     })
+  }
+
+  calculateTimes(milliseconds: number) {
+    this.startedAt = this.usageService.convertDate(new Date(milliseconds));
+    const sixteenHours = 57600000
+    this.endAt = this.usageService.convertDate(new Date(milliseconds + sixteenHours))
   }
 
   reset() {
-    Preferences.remove({
-      key: storageKey,
-    }).then(() => {
-      console.log("Day reset!", )
+    this.usageService.reset().then(() => {
       this.startedAt = '';
+      this.endAt = '';
     })
-  }
-
-  convertDate(date: Date) {
-    return date.toLocaleString('default', { hour: '2-digit', minute: 'numeric', hour12: false });
   }
 }

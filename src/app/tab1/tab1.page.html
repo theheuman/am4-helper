@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
+    <ion-title class="ion-text-center">
+      Resource usage
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,10 +14,13 @@
   </ion-header>
 
   <div class="content-container">
-    <h2>Resource Usage</h2>
     <ng-container *ngIf="!!startedAt">
       <h4>Day started: {{startedAt}} </h4>
+      <h4>End at: {{endAt}} </h4>
       <ion-button (click)="reset()">Reset day</ion-button>
+      <h4>Current time: {{currentTime}}</h4>
+      <h3>Upcoming Usage</h3>
+      <app-usage-table [currentTime]="currentTime.milliseconds" />
     </ng-container>
     <ion-button *ngIf="!startedAt" (click)="startDay()">Start Day</ion-button>
   </div>

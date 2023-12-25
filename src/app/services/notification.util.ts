@@ -70,15 +70,22 @@ const cancelDuplicates = async (newNotifications: LocalNotificationSchema[]) => 
   const indexesToDelete: number[] = []
   for (const notification of pendingResult.notifications) {
     console.log("Pending noti", notification.id, notification.schedule?.at)
+    let matchingIndex = -1
     const matchingNotification = newNotifications.find((newNotification, index) => {
-      indexesToDelete.push(index)
+      matchingIndex = index
       return newNotification.id === notification.id
     });
     if (!matchingNotification) {
       continue;
     }
-    if (notification.schedule?.at === matchingNotification?.schedule?.at) {
+    // capacitor lies and says this is a date, it is not, its a string
+    const pendingDate = new Date(notification.schedule?.at as unknown as string)
+    // capacitor cuts off the milliseconds on the date, do the same here
+    const matchingNotificationTimeNoMillis = Math.round((matchingNotification.schedule?.at?.getTime() ?? 0)/1000)*1000
+    console.log(pendingDate.getTime(), matchingNotificationTimeNoMillis)
+    if (pendingDate.getTime() === matchingNotificationTimeNoMillis) {
       console.log("Matching notifications", notification.id)
+      indexesToDelete.push(matchingIndex)
     } else {
       notificationsToCancel.push({id: notification.id})
     }
@@ -86,8 +93,8 @@ const cancelDuplicates = async (newNotifications: LocalNotificationSchema[]) => 
   for (const index of indexesToDelete.reverse()) {
     newNotifications.splice(index, 1)
   }
-  console.log('New notifications', newNotifications)
-  console.log('Notification to cancel', notificationsToCancel)
+  console.log('New notifications', newNotifications.map((noti) => noti.id + ' ' + noti.schedule?.at))
+  console.log('Notification to cancel', notificationsToCancel.map((noti) => noti.id))
   if (notificationsToCancel.length > 0) {
     await LocalNotifications.cancel({notifications: notificationsToCancel})
   }

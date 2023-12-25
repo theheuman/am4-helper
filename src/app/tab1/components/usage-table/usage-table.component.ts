@@ -38,6 +38,8 @@ export class UsageTableComponent implements OnInit, OnChanges {
   }
 
   setTableInfo(currentTime: number) {
+    this.beforeUsage = [];
+    this.afterUsage = [];
     this.usageService.getStartTime().then((startTime) => {
       const startTimeDate = new Date(startTime)
       const minutes = startTimeDate.getMinutes()

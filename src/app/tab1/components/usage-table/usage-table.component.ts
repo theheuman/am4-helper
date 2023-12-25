@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ResourceUsage, UsageService} from "../../../services/usage.service";
 import {DecimalPipe, NgForOf, NgIf} from "@angular/common";
 @Component({
@@ -12,7 +12,7 @@ import {DecimalPipe, NgForOf, NgIf} from "@angular/common";
     NgIf
   ]
 })
-export class UsageTableComponent implements OnInit {
+export class UsageTableComponent implements OnInit, OnChanges {
   @Input() currentTime!: number;
   usage: ResourceUsage[];
   beforeUsage: ResourceUsage[] = []
@@ -27,6 +27,17 @@ export class UsageTableComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setTableInfo(this.currentTime)
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    const changedCurrentTime = changes['currentTime']?.currentValue;
+    if (changedCurrentTime) {
+      this.setTableInfo(changedCurrentTime)
+    }
+  }
+
+  setTableInfo(currentTime: number) {
     this.usageService.getStartTime().then((startTime) => {
       const startTimeDate = new Date(startTime)
       const minutes = startTimeDate.getMinutes()
@@ -45,7 +56,7 @@ export class UsageTableComponent implements OnInit {
         const localDate = new Date(epochTime)
         const cet = localDate.toLocaleString('default', { hour: '2-digit', minute: 'numeric', hour12: false, timeZone: 'Europe/Berlin' })
         usageEntry.time = this.usageService.convertDate(localDate) + '(' + cet + ')';
-        if (epochTime < this.currentTime) {
+        if (epochTime < currentTime) {
           this.beforeUsage.push(usageEntry)
         }
         else {

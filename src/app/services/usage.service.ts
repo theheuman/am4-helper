@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Preferences} from "@capacitor/preferences";
+import {LocalNotifications, LocalNotificationSchema} from "@capacitor/local-notifications";
+import {notifications} from "ionicons/icons";
+import {setNotifications} from "./notification.util";
 
 const storageKey = 'dayStart';
 
@@ -31,10 +34,10 @@ export class UsageService {
       key: storageKey,
     })
     const startTime = Number(storageResult.value)
-    const sixteenHours = 57600000
     this.startTime = startTime;
-    this.endTime = startTime + sixteenHours;
-
+    this.setEndTime(startTime)
+    // TODO move this
+    setNotifications(startTime)
     return startTime
 
   }
@@ -48,14 +51,18 @@ export class UsageService {
     })
 
     this.startTime = now;
-    const sixteenHours = 57600000
-    this.endTime = now + sixteenHours;
+    this.setEndTime(now)
     return now;
 
   }
 
   getEndTime() {
     return this.endTime;
+  }
+
+  private setEndTime(startTime: number) {
+    const sixteenHours = 57600000
+    this.endTime = startTime + sixteenHours;
   }
 
   reset() {

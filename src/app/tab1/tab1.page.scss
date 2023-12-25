@@ -6,6 +6,24 @@
   justify-content: center;
 
   h2 {
-    color: var(--ion-color-primary);
+    color: var(--ion-color-secondary);
+  }
+
+  h4 {
+    margin-top: 0;
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+
+  a {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  app-usage-table {
+    max-width: 500px;
+    width: 100%;
   }
 }

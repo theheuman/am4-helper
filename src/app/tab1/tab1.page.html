@@ -15,9 +15,9 @@
 
   <div class="content-container">
     <ng-container *ngIf="!!startedAt">
-      <h4>Day started: {{startedAt}} </h4>
-      <h4>End at: {{endAt}} </h4>
-      <ion-button (click)="reset()">Reset day</ion-button>
+      <h5>Today: </h5>
+      <h4>{{startedAt}} - {{endAt}} </h4>
+      <a (click)="reset()">Reset day</a>
       <h4>Current time: {{currentTime.hourMinutes}}</h4>
       <h2>Upcoming Usage</h2>
       <app-usage-table [currentTime]="currentTime.milliseconds" />

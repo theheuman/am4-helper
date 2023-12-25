@@ -30,8 +30,12 @@ export class UsageService {
     const storageResult = await Preferences.get({
       key: storageKey,
     })
+    const startTime = Number(storageResult.value)
+    const sixteenHours = 57600000
+    this.startTime = startTime;
+    this.endTime = startTime + sixteenHours;
 
-    return Number(storageResult.value)
+    return startTime
 
   }
 

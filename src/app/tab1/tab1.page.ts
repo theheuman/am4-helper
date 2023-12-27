@@ -3,6 +3,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/a
 import {NgIf} from "@angular/common";
 import { UsageService} from "../services/usage.service";
 import {UsageTableComponent} from "./components/usage-table/usage-table.component";
+import {setNotifications} from "../services/notification.util";
 
 @Component({
   selector: 'app-tab1',
@@ -31,6 +32,7 @@ export class Tab1Page {
     usageService.getStartTime().then((milliseconds) => {
       this.startedAt = this.usageService.convertDate(new Date(milliseconds));
       this.endAt = this.usageService.convertDate(new Date(this.usageService.getEndTime()))
+      setNotifications(milliseconds)
     })
 
     setInterval(() => {
@@ -46,6 +48,7 @@ export class Tab1Page {
     this.usageService.setStartTime().then((milliseconds) => {
       this.startedAt = this.usageService.convertDate(new Date(milliseconds));
       this.endAt = this.usageService.convertDate(new Date(this.usageService.getEndTime()))
+      setNotifications(milliseconds)
     })
   }
 

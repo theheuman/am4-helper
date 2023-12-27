@@ -74,9 +74,10 @@ export class UsageTableComponent implements OnInit, OnChanges {
           this.beforeUsage.push(this.mapToFrontend(previousEntry, usageEntry))
         }
         else {
-          this.afterUsage.push(this.mapToFrontend(previousEntry, usageEntry))
-          previousEntry.co2 = usageEntry.usage.co2;
-          previousEntry.fuel = usageEntry.usage.fuel;
+          const frontendEntry = this.mapToFrontend(previousEntry, usageEntry)
+          this.afterUsage.push(frontendEntry)
+          previousEntry.co2 = frontendEntry.co2.total;
+          previousEntry.fuel = frontendEntry.fuel.total;
         }
       })
     })

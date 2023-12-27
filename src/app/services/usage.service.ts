@@ -36,8 +36,6 @@ export class UsageService {
     const startTime = Number(storageResult.value)
     this.startTime = startTime;
     this.setEndTime(startTime)
-    // TODO move this
-    setNotifications(startTime)
     return startTime
 
   }

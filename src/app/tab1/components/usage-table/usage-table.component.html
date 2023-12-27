@@ -11,40 +11,20 @@
     </ion-col>
   </ion-row>
   <ng-container *ngIf="showBefore">
-    <ion-row *ngFor="let usageEntry of beforeUsage">
-      <ion-col>
-        {{ usageEntry.time }}
-      </ion-col>
-      <ion-col>
-        {{ usageEntry.fuel.individual.average | million }}
-      </ion-col>
-      <ion-col>
-        {{ usageEntry.co2.individual.average | million }}
-      </ion-col>
-    </ion-row>
+    <app-usage-row *ngFor="let usageEntry of beforeUsage" [usageEntry]="usageEntry"/>
   </ng-container>
   <ion-row class="separator" *ngIf="beforeUsage.length > 0">
     <ion-col></ion-col>
-    <ion-col><a (click)="toggleBeforeTable()">{{ currentToggleText }}</a> </ion-col>
+    <ion-col style="text-align: center"><a (click)="toggleBeforeTable()">{{ currentToggleText }}</a> </ion-col>
     <ion-col></ion-col>
   </ion-row>
   <ng-container *ngIf="!!currentHalfHour">
-    <app-usage-row [usageEntry]="currentHalfHour" />
+    <app-usage-row [usageEntry]="currentHalfHour" [isCurrent]="true"/>
   </ng-container>
   <ion-row class="separator" *ngIf="beforeUsage.length > 0">
     <ion-col></ion-col>
     <ion-col></ion-col>
     <ion-col></ion-col>
   </ion-row>
-  <ion-row *ngFor="let usageEntry of afterUsage">
-    <ion-col>
-      {{ usageEntry.time }}
-    </ion-col>
-    <ion-col>
-      {{ usageEntry.fuel.total.average | million }} <br>(<span style="color: yellow;">{{usageEntry.fuel.individual.average | million}}</span>)
-    </ion-col>
-    <ion-col>
-      {{ usageEntry.co2.total.average | million }} <br>(<span style="color: yellow;">{{usageEntry.co2.individual.average | million}}</span>)
-    </ion-col>
-  </ion-row>
+  <app-usage-row *ngFor="let usageEntry of afterUsage" [usageEntry]="usageEntry"/>
 </ion-grid>

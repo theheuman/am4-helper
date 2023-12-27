@@ -65,6 +65,7 @@ export class UsageTableComponent implements OnInit, OnChanges {
         co2: 0,
         fuel: 0,
       }
+      console.log(this.usage)
       this.usage.forEach((usageEntry, index) => {
         const epochTime = startTimeDate.getTime() + (index * this.intervalTimeInMilliseconds);
         const localDate = new Date(epochTime)
@@ -86,17 +87,17 @@ export class UsageTableComponent implements OnInit, OnChanges {
 
 
   mapToFrontend(previousUsage: {co2: number, fuel: number}, usageEntry: ResourceUsage): FrontendUsage {
-    const totalCo2 = previousUsage.co2 + usageEntry.usage.co2;
-    const totalFuel = previousUsage.fuel + usageEntry.usage.fuel;
+    const totalCo2 = previousUsage.co2 + usageEntry.co2.average;
+    const totalFuel = previousUsage.fuel + usageEntry.fuel.average;
     return {
       time: usageEntry.time,
       co2: {
         total: totalCo2,
-        individual: usageEntry.usage.co2
+        individual: usageEntry.co2.average
       },
       fuel: {
         total: totalFuel,
-        individual: usageEntry.usage.fuel
+        individual: usageEntry.fuel.average
       }
     }
   }

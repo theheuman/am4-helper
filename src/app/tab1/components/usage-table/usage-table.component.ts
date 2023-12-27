@@ -3,6 +3,8 @@ import {ResourceUsage, UsageService} from "../../../services/usage.service";
 import {DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {MillionPipe} from "../../../pipes/million.pipe";
 import {IonicModule} from "@ionic/angular";
+import {addIcons} from "ionicons";
+import {caretUp, caretDown} from "ionicons/icons";
 
 interface FrontendUsage {
   time: string,
@@ -25,7 +27,7 @@ interface FrontendUsage {
     DecimalPipe,
     NgIf,
     MillionPipe,
-    IonicModule
+    IonicModule,
   ]
 })
 export class UsageTableComponent implements OnInit, OnChanges {
@@ -40,6 +42,8 @@ export class UsageTableComponent implements OnInit, OnChanges {
   showBefore = true;
 
   constructor(private usageService: UsageService) {
+    addIcons({ caretUp, caretDown });
+
     this.usage = this.usageService.getUsage()
   }
 

@@ -35,14 +35,17 @@
     <ion-col>
       <ion-row>
         <ion-col>
-          <ion-icon name="caret-up-outline"></ion-icon> {{ currentHalfHour.fuel.individual | million }}
+          <ion-icon aria-hidden="true" name="caret-up" color="success"></ion-icon>
+          {{ currentHalfHour.fuel.individual | million }}
         </ion-col>
         <ion-col>
           {{ currentHalfHour.fuel.individual | million }}
         </ion-col>
       </ion-row>
-      <ion-row>
-        {{ currentHalfHour.fuel.individual | million }}
+      <ion-row style="margin-top: 5px; padding-top: 5px; border-top: 1px solid grey">
+        <ion-col>
+          {{ currentHalfHour.fuel.individual | million }}
+        </ion-col>
       </ion-row>
     </ion-col>
     <ion-col>

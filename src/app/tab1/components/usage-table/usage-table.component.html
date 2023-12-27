@@ -16,10 +16,10 @@
         {{ usageEntry.time }}
       </ion-col>
       <ion-col>
-        {{ usageEntry.fuel.individual | million }}
+        {{ usageEntry.fuel.individual.average | million }}
       </ion-col>
       <ion-col>
-        {{ usageEntry.co2.individual | million }}
+        {{ usageEntry.co2.individual.average | million }}
       </ion-col>
     </ion-row>
   </ng-container>
@@ -28,30 +28,9 @@
     <ion-col><a (click)="toggleBeforeTable()">{{ currentToggleText }}</a> </ion-col>
     <ion-col></ion-col>
   </ion-row>
-  <ion-row class="current-half-hour" *ngIf="!!currentHalfHour">
-    <ion-col>
-      {{ currentHalfHour.time }}
-    </ion-col>
-    <ion-col>
-      <ion-row>
-        <ion-col>
-          <ion-icon aria-hidden="true" name="caret-up" color="success"></ion-icon>
-          {{ currentHalfHour.fuel.individual | million }}
-        </ion-col>
-        <ion-col>
-          {{ currentHalfHour.fuel.individual | million }}
-        </ion-col>
-      </ion-row>
-      <ion-row style="margin-top: 5px; padding-top: 5px; border-top: 1px solid grey">
-        <ion-col>
-          {{ currentHalfHour.fuel.individual | million }}
-        </ion-col>
-      </ion-row>
-    </ion-col>
-    <ion-col>
-      {{ currentHalfHour.co2.individual | million }}
-    </ion-col>
-  </ion-row>
+  <ng-container *ngIf="!!currentHalfHour">
+    <app-usage-row [usageEntry]="currentHalfHour" />
+  </ng-container>
   <ion-row class="separator" *ngIf="beforeUsage.length > 0">
     <ion-col></ion-col>
     <ion-col></ion-col>
@@ -62,10 +41,10 @@
       {{ usageEntry.time }}
     </ion-col>
     <ion-col>
-      {{ usageEntry.fuel.total | million }} <br>(<span style="color: yellow;">{{usageEntry.fuel.individual | million}}</span>)
+      {{ usageEntry.fuel.total.average | million }} <br>(<span style="color: yellow;">{{usageEntry.fuel.individual.average | million}}</span>)
     </ion-col>
     <ion-col>
-      {{ usageEntry.co2.total | million }} <br>(<span style="color: yellow;">{{usageEntry.co2.individual | million}}</span>)
+      {{ usageEntry.co2.total.average | million }} <br>(<span style="color: yellow;">{{usageEntry.co2.individual.average | million}}</span>)
     </ion-col>
   </ion-row>
 </ion-grid>

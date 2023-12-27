@@ -1,0 +1,26 @@
+
+<ion-row class="current-half-hour">
+  <ion-col style="text-align: center">
+    {{ usageEntry.time }}
+  </ion-col>
+  <ion-col>
+    <ion-row>
+      <ion-col>
+        <ion-icon aria-hidden="true" name="caret-down" color="success"></ion-icon>
+        {{ usageEntry.fuel.individual.low | million }}
+      </ion-col>
+      <ion-col>
+        <ion-icon aria-hidden="true" name="caret-up" color="danger"></ion-icon>
+        {{ usageEntry.fuel.individual.high | million }}
+      </ion-col>
+    </ion-row>
+    <ion-row style="margin-top: 5px; padding-top: 5px; border-top: 1px solid grey">
+      <ion-col>
+        {{ usageEntry.fuel.individual.average | million }}
+      </ion-col>
+    </ion-row>
+  </ion-col>
+  <ion-col>
+    {{ usageEntry.co2.individual.average | million }}
+  </ion-col>
+</ion-row>

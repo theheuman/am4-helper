@@ -1,8 +1,9 @@
 ion-grid {
   width: 100%;
+  font-size: 14px;
 
   .head {
-    td {
+    ion-col {
       text-align: center;
       font-size: 18px;
       font-weight: 700;
@@ -39,22 +40,5 @@ ion-grid {
       }
     }
   }
-
-  ion-row.current-half-hour {
-    border: 2px solid lawngreen;
-    ion-col {
-      border-right: 1px solid lawngreen;
-      border-left: 1px solid lawngreen;
-    }
-
-    ion-col:first-of-type {
-      border-left: none;
-    }
-
-    ion-col:last-of-type {
-      border-right: none;
-    }
-  }
-
 }
 

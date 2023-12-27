@@ -7,18 +7,15 @@ import {getRawData, getRawDataConvertedToNumbers} from "./usage.data";
 
 const storageKey = 'dayStart';
 
+export interface CalculatedUsageValues {
+  low: number;
+  high: number;
+  average: number;
+}
 export interface ResourceUsage {
   time: string;
-  fuel: {
-    low: number;
-    average: number;
-    high: number;
-  };
-  co2: {
-    low: number;
-    average: number;
-    high: number;
-  };
+  fuel: CalculatedUsageValues;
+  co2: CalculatedUsageValues;
 }
 
 @Injectable({

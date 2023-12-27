@@ -1,22 +1,12 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ResourceUsage, UsageService} from "../../../services/usage.service";
+import {CalculatedUsageValues, ResourceUsage, UsageService} from "../../../services/usage.service";
 import {DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {MillionPipe} from "../../../pipes/million.pipe";
 import {IonicModule} from "@ionic/angular";
 import {addIcons} from "ionicons";
 import {caretUp, caretDown} from "ionicons/icons";
+import {FrontendUsage, UsageRowComponent} from "../usage-row/usage-row.component";
 
-interface FrontendUsage {
-  time: string,
-  co2: {
-    total: number,
-    individual: number,
-  },
-  fuel: {
-    total: number,
-    individual: number,
-  }
-}
 @Component({
   selector: 'app-usage-table',
   templateUrl: './usage-table.component.html',
@@ -28,6 +18,7 @@ interface FrontendUsage {
     NgIf,
     MillionPipe,
     IonicModule,
+    UsageRowComponent,
   ]
 })
 export class UsageTableComponent implements OnInit, OnChanges {
@@ -71,15 +62,23 @@ export class UsageTableComponent implements OnInit, OnChanges {
         startTimeDate.setMinutes(30)
       }
       const previousEntry = {
-        co2: 0,
-        fuel: 0,
+        co2: {
+          low: 0,
+          high: 0,
+          average: 0,
+        },
+        fuel: {
+          low: 0,
+          high: 0,
+          average: 0,
+        },
       }
 
       this.usage.forEach((usageEntry, index) => {
         const epochTime = startTimeDate.getTime() + (index * this.intervalTimeInMilliseconds);
         const localDate = new Date(epochTime)
         const cet = localDate.toLocaleString('default', { hour: '2-digit', minute: 'numeric', hour12: false, timeZone: 'Europe/Berlin' })
-        usageEntry.time = this.usageService.convertDate(localDate) + '(' + cet + ')';
+        usageEntry.time = this.usageService.convertDate(localDate) + ' (' + cet + ')';
         if (epochTime < currentTime) {
           this.beforeUsage.push(this.mapToFrontend(previousEntry, usageEntry))
         }
@@ -97,18 +96,26 @@ export class UsageTableComponent implements OnInit, OnChanges {
   }
 
 
-  mapToFrontend(previousUsage: {co2: number, fuel: number}, usageEntry: ResourceUsage): FrontendUsage {
-    const totalCo2 = previousUsage.co2 + usageEntry.co2.average;
-    const totalFuel = previousUsage.fuel + usageEntry.fuel.average;
+  mapToFrontend(previousUsage: {co2: CalculatedUsageValues, fuel: CalculatedUsageValues}, usageEntry: ResourceUsage): FrontendUsage {
+    const totalCo2: CalculatedUsageValues = {
+      low: previousUsage.co2.low + usageEntry.co2.low,
+      high: previousUsage.co2.high + usageEntry.co2.high,
+      average: previousUsage.co2.average + usageEntry.co2.average,
+    };
+    const totalFuel: CalculatedUsageValues = {
+      low: previousUsage.fuel.low + usageEntry.fuel.low,
+      high: previousUsage.fuel.high + usageEntry.fuel.high,
+      average: previousUsage.fuel.average + usageEntry.fuel.average,
+    };
     return {
       time: usageEntry.time,
       co2: {
         total: totalCo2,
-        individual: usageEntry.co2.average
+        individual: usageEntry.co2
       },
       fuel: {
         total: totalFuel,
-        individual: usageEntry.fuel.average
+        individual: usageEntry.fuel
       }
     }
   }

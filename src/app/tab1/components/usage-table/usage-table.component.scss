@@ -1,12 +1,7 @@
-table {
+ion-grid {
   width: 100%;
 
-  td {
-    border: 1px solid var(--ion-color-secondary);
-    padding: 10px;
-  }
-
-  thead {
+  .head {
     td {
       text-align: center;
       font-size: 18px;
@@ -14,13 +9,16 @@ table {
     }
   }
 
-  tr {
-    td {
+  ion-row {
+    ion-col {
       text-align: right;
+      border: 1px solid var(--ion-color-secondary);
+      padding: 10px;
     }
   }
-  tr.separator {
-    td {
+
+  ion-row.separator {
+    ion-col {
       border: none;
 
       a {
@@ -29,10 +27,22 @@ table {
       }
     }
   }
-  tr.current-half-hour {
-    td {
-      border: 3px solid lawngreen;
+
+  ion-row.current-half-hour {
+    border: 2px solid lawngreen;
+    ion-col {
+      border-right: 1px solid lawngreen;
+      border-left: 1px solid lawngreen;
+    }
+
+    ion-col:first-of-type {
+      border-left: none;
+    }
+
+    ion-col:last-of-type {
+      border-right: none;
     }
   }
+
 }
 

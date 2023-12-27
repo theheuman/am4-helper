@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class MillionPipe implements PipeTransform {
 
   transform(value: number, ...args: unknown[]): string {
-    return (value/1000000).toFixed(1);
+    return (value/1000000).toFixed(1) + ' M';
   }
 
 }

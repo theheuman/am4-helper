@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {ResourceUsage, UsageService} from "../../../services/usage.service";
 import {DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {MillionPipe} from "../../../pipes/million.pipe";
+import {IonicModule} from "@ionic/angular";
 
 interface FrontendUsage {
   time: string,
@@ -23,7 +24,8 @@ interface FrontendUsage {
     NgForOf,
     DecimalPipe,
     NgIf,
-    MillionPipe
+    MillionPipe,
+    IonicModule
   ]
 })
 export class UsageTableComponent implements OnInit, OnChanges {

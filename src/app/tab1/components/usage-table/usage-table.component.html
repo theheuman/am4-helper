@@ -1,58 +1,68 @@
-<table>
-  <thead>
-  <td>
-    Hour
-  </td>
-  <td>
-    Fuel needed
-  </td>
-  <td>
-    Quotas needed
-  </td>
-  </thead>
+<ion-grid>
+  <ion-row class="head">
+    <ion-col>
+      Hour
+    </ion-col>
+    <ion-col>
+      Fuel needed
+    </ion-col>
+    <ion-col>
+      Quotas needed
+    </ion-col>
+  </ion-row>
   <ng-container *ngIf="showBefore">
-    <tr *ngFor="let usageEntry of beforeUsage">
-      <td>
+    <ion-row *ngFor="let usageEntry of beforeUsage">
+      <ion-col>
         {{ usageEntry.time }}
-      </td>
-      <td>
-        {{ usageEntry.fuel.individual | million }} M
-      </td>
-      <td>
-        {{ usageEntry.co2.individual | million }} M
-      </td>
-    </tr>
+      </ion-col>
+      <ion-col>
+        {{ usageEntry.fuel.individual | million }}
+      </ion-col>
+      <ion-col>
+        {{ usageEntry.co2.individual | million }}
+      </ion-col>
+    </ion-row>
   </ng-container>
-  <tr class="separator" *ngIf="beforeUsage.length > 0">
-    <td></td>
-    <td><a (click)="toggleBeforeTable()">{{ currentToggleText }}</a> </td>
-    <td></td>
-  </tr>
-  <tr class="current-half-hour" *ngIf="!!currentHalfHour">
-    <td>
+  <ion-row class="separator" *ngIf="beforeUsage.length > 0">
+    <ion-col></ion-col>
+    <ion-col><a (click)="toggleBeforeTable()">{{ currentToggleText }}</a> </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  <ion-row class="current-half-hour" *ngIf="!!currentHalfHour">
+    <ion-col>
       {{ currentHalfHour.time }}
-    </td>
-    <td>
-      {{ currentHalfHour.fuel.individual | million }} M
-    </td>
-    <td>
-      {{ currentHalfHour.co2.individual | million }} M
-    </td>
-  </tr>
-  <tr class="separator" *ngIf="beforeUsage.length > 0">
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr *ngFor="let usageEntry of afterUsage">
-    <td>
+    </ion-col>
+    <ion-col>
+      <ion-row>
+        <ion-col>
+          <ion-icon name="caret-up-outline"></ion-icon> {{ currentHalfHour.fuel.individual | million }}
+        </ion-col>
+        <ion-col>
+          {{ currentHalfHour.fuel.individual | million }}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        {{ currentHalfHour.fuel.individual | million }}
+      </ion-row>
+    </ion-col>
+    <ion-col>
+      {{ currentHalfHour.co2.individual | million }}
+    </ion-col>
+  </ion-row>
+  <ion-row class="separator" *ngIf="beforeUsage.length > 0">
+    <ion-col></ion-col>
+    <ion-col></ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  <ion-row *ngFor="let usageEntry of afterUsage">
+    <ion-col>
       {{ usageEntry.time }}
-    </td>
-    <td>
-      {{ usageEntry.fuel.total | million }} M<br>(<span style="color: yellow;">{{usageEntry.fuel.individual | million}}</span>)
-    </td>
-    <td>
-      {{ usageEntry.co2.total | million }} M<br>(<span style="color: yellow;">{{usageEntry.co2.individual | million}}</span>)
-    </td>
-  </tr>
-</table>
+    </ion-col>
+    <ion-col>
+      {{ usageEntry.fuel.total | million }} <br>(<span style="color: yellow;">{{usageEntry.fuel.individual | million}}</span>)
+    </ion-col>
+    <ion-col>
+      {{ usageEntry.co2.total | million }} <br>(<span style="color: yellow;">{{usageEntry.co2.individual | million}}</span>)
+    </ion-col>
+  </ion-row>
+</ion-grid>

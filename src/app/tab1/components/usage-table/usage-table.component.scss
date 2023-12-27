@@ -29,5 +29,10 @@ table {
       }
     }
   }
+  tr.current-half-hour {
+    td {
+      border: 3px solid lawngreen;
+    }
+  }
 }
 

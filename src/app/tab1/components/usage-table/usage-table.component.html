@@ -16,16 +16,32 @@
         {{ usageEntry.time }}
       </td>
       <td>
-        {{ usageEntry.fuel.individual | number }}
+        {{ usageEntry.fuel.individual | million }} M
       </td>
       <td>
-        {{ usageEntry.co2.individual | number }}
+        {{ usageEntry.co2.individual | million }} M
       </td>
     </tr>
   </ng-container>
-  <tr class="separator">
+  <tr class="separator" *ngIf="beforeUsage.length > 0">
     <td></td>
     <td><a (click)="toggleBeforeTable()">{{ currentToggleText }}</a> </td>
+    <td></td>
+  </tr>
+  <tr class="current-half-hour" *ngIf="!!currentHalfHour">
+    <td>
+      {{ currentHalfHour.time }}
+    </td>
+    <td>
+      {{ currentHalfHour.fuel.individual | million }} M
+    </td>
+    <td>
+      {{ currentHalfHour.co2.individual | million }} M
+    </td>
+  </tr>
+  <tr class="separator" *ngIf="beforeUsage.length > 0">
+    <td></td>
+    <td></td>
     <td></td>
   </tr>
   <tr *ngFor="let usageEntry of afterUsage">
@@ -33,10 +49,10 @@
       {{ usageEntry.time }}
     </td>
     <td>
-      {{ usageEntry.fuel.total | number }} <br>(<span style="color: yellow;">{{usageEntry.fuel.individual | number}}</span>)
+      {{ usageEntry.fuel.total | million }} M<br>(<span style="color: yellow;">{{usageEntry.fuel.individual | million}}</span>)
     </td>
     <td>
-      {{ usageEntry.co2.total | number }} <br>(<span style="color: yellow;">{{usageEntry.co2.individual | number}}</span>)
+      {{ usageEntry.co2.total | million }} M<br>(<span style="color: yellow;">{{usageEntry.co2.individual | million}}</span>)
     </td>
   </tr>
 </table>

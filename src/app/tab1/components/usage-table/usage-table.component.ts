@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {ResourceUsage, UsageService} from "../../../services/usage.service";
 import {DecimalPipe, NgForOf, NgIf} from "@angular/common";
+import {MillionPipe} from "../../../pipes/million.pipe";
 
 interface FrontendUsage {
   time: string,
@@ -21,7 +22,8 @@ interface FrontendUsage {
   imports: [
     NgForOf,
     DecimalPipe,
-    NgIf
+    NgIf,
+    MillionPipe
   ]
 })
 export class UsageTableComponent implements OnInit, OnChanges {
@@ -29,6 +31,7 @@ export class UsageTableComponent implements OnInit, OnChanges {
   usage: ResourceUsage[];
   beforeUsage: FrontendUsage[] = []
   afterUsage: FrontendUsage[] = []
+  currentHalfHour: FrontendUsage | undefined;
   private intervalTimeInMilliseconds = 30*60*1000
 
   currentToggleText = 'Hide Before';
@@ -65,7 +68,7 @@ export class UsageTableComponent implements OnInit, OnChanges {
         co2: 0,
         fuel: 0,
       }
-      console.log(this.usage)
+
       this.usage.forEach((usageEntry, index) => {
         const epochTime = startTimeDate.getTime() + (index * this.intervalTimeInMilliseconds);
         const localDate = new Date(epochTime)
@@ -81,6 +84,8 @@ export class UsageTableComponent implements OnInit, OnChanges {
           previousEntry.fuel = frontendEntry.fuel.total;
         }
       })
+      // pop the current hour into a special place
+      this.currentHalfHour = this.beforeUsage.pop()
     })
 
   }

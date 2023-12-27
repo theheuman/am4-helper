@@ -16,10 +16,10 @@
         {{ usageEntry.time }}
       </td>
       <td>
-        {{ usageEntry.usage.fuel | number }}
+        {{ usageEntry.fuel.individual | number }}
       </td>
       <td>
-        {{ usageEntry.usage.co2 | number }}
+        {{ usageEntry.co2.individual | number }}
       </td>
     </tr>
   </ng-container>
@@ -33,10 +33,10 @@
       {{ usageEntry.time }}
     </td>
     <td>
-      {{ usageEntry.usage.fuel | number }}
+      {{ usageEntry.fuel.total | number }} <br>(<span style="color: yellow;">{{usageEntry.fuel.individual | number}}</span>)
     </td>
     <td>
-      {{ usageEntry.usage.co2 | number }}
+      {{ usageEntry.co2.total | number }} <br>(<span style="color: yellow;">{{usageEntry.co2.individual | number}}</span>)
     </td>
   </tr>
 </table>

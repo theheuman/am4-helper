@@ -16,6 +16,12 @@ ion-row {
       }
     }
   }
+
+  .simple-col {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
 }
 
 ion-row.current-half-hour {

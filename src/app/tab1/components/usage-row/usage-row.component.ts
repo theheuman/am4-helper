@@ -34,6 +34,11 @@ export class UsageRowComponent {
   @Input() usageEntry!: FrontendUsage
   @Input() isCurrent = false
   @Input() showTotal = false
+  showDetails = false;
 
   constructor() { }
+
+  toggleDetails() {
+    this.showDetails = !this.showDetails;
+  }
 }

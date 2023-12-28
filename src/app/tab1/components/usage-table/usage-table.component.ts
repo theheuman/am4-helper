@@ -29,8 +29,8 @@ export class UsageTableComponent implements OnInit, OnChanges {
   currentHalfHour: FrontendUsage | undefined;
   private intervalTimeInMilliseconds = 30*60*1000
 
-  currentToggleText = 'Hide Before';
-  showBefore = true;
+  currentToggleText = 'Show Before';
+  showBefore = false;
 
   constructor(private usageService: UsageService) {
     addIcons({ caretUp, caretDown });

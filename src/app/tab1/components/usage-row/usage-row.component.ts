@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input } from '@angular/core';
 import {CalculatedUsageValues} from "../../../services/usage.service";
-import {IonCol, IonicModule, IonRow} from "@ionic/angular";
+import { IonicModule } from "@ionic/angular";
 import {NgClass, NgIf} from "@angular/common";
 import {MillionPipe} from "../../../pipes/million.pipe";
 
@@ -25,11 +25,13 @@ export interface FrontendUsage {
     IonicModule,
     MillionPipe,
     NgClass,
+    NgIf,
   ]
 })
 export class UsageRowComponent {
   @Input() usageEntry!: FrontendUsage
   @Input() isCurrent = false
+  @Input() showTotal = false
 
   constructor() { }
 }

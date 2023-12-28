@@ -7,16 +7,16 @@
     <ion-row>
       <ion-col>
         <ion-icon aria-hidden="true" name="caret-down" color="success"></ion-icon>
-        {{ usageEntry.fuel.individual.low | million }}
+        {{ (showTotal ? usageEntry.fuel.total.low : usageEntry.fuel.individual.low) | million }}
       </ion-col>
       <ion-col>
         <ion-icon aria-hidden="true" name="caret-up" color="danger"></ion-icon>
-        {{ usageEntry.fuel.individual.high | million }}
+        {{ (showTotal ? usageEntry.fuel.total.high : usageEntry.fuel.individual.high) | million }}
       </ion-col>
     </ion-row>
     <ion-row style="margin-top: 5px; padding-top: 5px; border-top: 1px solid grey">
       <ion-col>
-        {{ usageEntry.fuel.individual.average | million }} <span *ngIf="showTotal" style="color: yellow"> &nbsp; ({{ usageEntry.fuel.total.average | million }})</span>
+        {{ usageEntry.fuel.individual.average | million }} <span *ngIf="showTotal" style="color: yellow; font-size: 16px"> &nbsp; ({{ usageEntry.fuel.total.average | million }})</span>
       </ion-col>
     </ion-row>
   </ion-col>
@@ -24,16 +24,16 @@
     <ion-row>
       <ion-col>
         <ion-icon aria-hidden="true" name="caret-down" color="success"></ion-icon>
-        {{ usageEntry.co2.individual.low | million }}
+        {{ (showTotal ? usageEntry.co2.total.low : usageEntry.co2.individual.low) | million }}
       </ion-col>
       <ion-col>
         <ion-icon aria-hidden="true" name="caret-up" color="danger"></ion-icon>
-        {{ usageEntry.co2.individual.high | million }}
+        {{ (showTotal ? usageEntry.co2.total.high : usageEntry.co2.individual.high) | million }}
       </ion-col>
     </ion-row>
     <ion-row style="margin-top: 5px; padding-top: 5px; border-top: 1px solid grey">
       <ion-col>
-        {{ usageEntry.co2.individual.average | million }} <span *ngIf="showTotal" style="color: yellow"> &nbsp; ({{ usageEntry.co2.total.average | million }})</span>
+        {{ usageEntry.co2.individual.average | million }} <span *ngIf="showTotal" style="color: yellow; font-size: 16px"> &nbsp; ({{ usageEntry.co2.total.average | million }})</span>
       </ion-col>
     </ion-row>
   </ion-col>

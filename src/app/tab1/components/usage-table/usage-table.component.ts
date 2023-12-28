@@ -2,10 +2,10 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {CalculatedUsageValues, ResourceUsage, UsageService} from "../../../services/usage.service";
 import {DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {MillionPipe} from "../../../pipes/million.pipe";
-import {IonicModule} from "@ionic/angular";
 import {addIcons} from "ionicons";
 import {caretUp, caretDown} from "ionicons/icons";
 import {FrontendUsage, UsageRowComponent} from "../usage-row/usage-row.component";
+import { IonGrid, IonCol, IonRow } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-usage-table',
@@ -17,7 +17,9 @@ import {FrontendUsage, UsageRowComponent} from "../usage-row/usage-row.component
     DecimalPipe,
     NgIf,
     MillionPipe,
-    IonicModule,
+    IonGrid,
+    IonCol,
+    IonRow,
     UsageRowComponent,
   ]
 })

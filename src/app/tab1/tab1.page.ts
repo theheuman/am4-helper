@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/angular/standalone';
+import {IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonDatetime} from '@ionic/angular/standalone';
 import {NgIf} from "@angular/common";
 import { UsageService} from "../services/usage.service";
 import {UsageTableComponent} from "./components/usage-table/usage-table.component";
 import {setNotifications} from "../services/notification.util";
+import {DatetimeChangeEventDetail} from "@ionic/angular";
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonButton, NgIf, UsageTableComponent],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonDatetime, NgIf, UsageTableComponent],
 })
 export class Tab1Page {
   startedAt: string;
@@ -19,6 +20,7 @@ export class Tab1Page {
     hourMinutes: string;
   };
   endAt: string;
+  selectedTime: string = '';
 
   constructor(private usageService: UsageService) {
     this.startedAt = '';
@@ -45,7 +47,8 @@ export class Tab1Page {
   }
 
   startDay() {
-    this.usageService.setStartTime().then((milliseconds) => {
+    const selectedStartTime = !!this.selectedTime ? new Date(this.selectedTime) : undefined
+    this.usageService.setStartTime(selectedStartTime).then((milliseconds) => {
       this.startedAt = this.usageService.convertDate(new Date(milliseconds));
       this.endAt = this.usageService.convertDate(new Date(this.usageService.getEndTime()))
       setNotifications(milliseconds)
@@ -57,5 +60,11 @@ export class Tab1Page {
       this.startedAt = '';
       this.endAt = '';
     })
+  }
+
+  selectTime(event: Event) {
+    const details = event.target as DatetimeChangeEventDetail
+    this.selectedTime = details.value as string;
+    console.log(this.selectedTime)
   }
 }

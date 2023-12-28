@@ -37,6 +37,9 @@ export class UsageService {
     const storageResult = await Preferences.get({
       key: storageKey,
     })
+    if (!storageResult.value) {
+      throw Error('No start time value in storage')
+    }
     const startTime = Number(storageResult.value)
     this.startTime = startTime;
     this.setEndTime(startTime)
@@ -44,17 +47,17 @@ export class UsageService {
 
   }
 
-  async setStartTime(): Promise<number> {
-    const now = Date.now();
+  async setStartTime(date?: Date): Promise<number> {
+    const startTime = !!date ? date.getTime() : Date.now();
 
     await Preferences.set({
       key: storageKey,
-      value: now + '',
+      value: startTime + '',
     })
 
-    this.startTime = now;
-    this.setEndTime(now)
-    return now;
+    this.startTime = startTime;
+    this.setEndTime(startTime)
+    return startTime;
 
   }
 

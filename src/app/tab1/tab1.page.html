@@ -14,7 +14,7 @@
   </ion-header>
 
   <div class="content-container">
-    <ng-container *ngIf="!!startedAt">
+    <ng-container *ngIf="!!startedAt else notStarted">
       <h5>Today: </h5>
       <h4>{{startedAt}} - {{endAt}} </h4>
       <a (click)="reset()">Reset day</a>
@@ -22,6 +22,10 @@
       <h2>Upcoming Usage</h2>
       <app-usage-table [currentTime]="currentTime.milliseconds"/>
     </ng-container>
-    <ion-button *ngIf="!startedAt" (click)="startDay()">Start Day</ion-button>
   </div>
 </ion-content>
+
+<ng-template #notStarted>
+  <ion-datetime presentation="time" hourCycle="h24" (ionChange)="selectTime($event)"></ion-datetime>
+  <ion-button *ngIf="!startedAt" (click)="startDay()">Start Day</ion-button>
+</ng-template>

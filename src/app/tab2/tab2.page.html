@@ -13,18 +13,24 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-grid>
-    <ion-row *ngFor="let price of prices">
-      <ion-col>
-        {{price.time.getHours() | number:'2.0'}} {{':'}} {{price.time.getMinutes() | number:'2.0'}}
-      </ion-col>
-      <ion-col [ngClass]="{'green': price.fuel < 700, 'red': price.fuel > 1800}">
-        {{price.fuel | currency : 'USD' : 'symbol' : '1.0-0'}}
-      </ion-col>
-      <ion-col [ngClass]="{'green': price.co2 < 130, 'red': price.co2 > 170}">
-        {{price.co2 | currency : 'USD' : 'symbol' : '1.0-0'}}
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div class="content-container">
+    <ion-grid>
+      <ion-row *ngFor="let price of prices">
+        <ion-col>
+          {{price.time.getHours() | number:'2.0'}}{{':'}}{{price.time.getMinutes() | number:'2.0'}}
+        </ion-col>
+        <ion-col [ngClass]="{'green': price.fuel < 700, 'red': price.fuel > 1800}">
+          {{price.fuel | currency : 'USD' : 'symbol' : '1.0-0'}}
+        </ion-col>
+        <ion-col [ngClass]="{'green': price.co2 < 130, 'red': price.co2 > 170}">
+          {{price.co2 | currency : 'USD' : 'symbol' : '1.0-0'}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-button (click)="reset()" color="danger">
+      Reset
+    </ion-button>
+  </div>
 
 </ion-content>

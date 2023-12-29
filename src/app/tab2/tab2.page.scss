@@ -4,3 +4,13 @@
 .green {
   color: var(--ion-color-success)
 }
+
+ion-grid {
+  margin: 0;
+  width: 100%;
+
+  ion-col {
+    padding: 10px;
+    text-align: center;
+  }
+}

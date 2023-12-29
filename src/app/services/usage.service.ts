@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Preferences} from "@capacitor/preferences";
 import {getRawDataConvertedToNumbers} from "./usage.data";
 import {BehaviorSubject} from "rxjs";
+import {TimeService} from "./time/time.service";
 
 const storageKey = 'dayStart';
 
@@ -34,7 +35,6 @@ export interface FrontendUsage {
 export class UsageService {
   private startTimeSubject = new BehaviorSubject<number>(0);
   private endTime: number;
-  private currentTimeSubject = new BehaviorSubject<number>(0);
   private usageSubject = new BehaviorSubject<{
     before: FrontendUsage[],
     after: FrontendUsage[],
@@ -42,25 +42,19 @@ export class UsageService {
   }>({before: [], after: [], current: undefined})
   private intervalTimeInMilliseconds = 30*60*1000
 
-  constructor() {
+  constructor(private timeService: TimeService) {
     this.endTime = 0;
     this.setUsage(Date.now())
 
     this.initializeStartTime()
-    this.startTimeSubject.subscribe(() => this.setUsage(this.currentTimeSubject.getValue()))
-
-    setInterval(() => {
-      const now = Date.now()
-      this.setUsage(now)
-    }, 20000);
+    this.startTimeSubject.subscribe(() => this.setUsage(this.timeService.currentTime.getValue()))
+    this.timeService.getCurrentTimeSubject().subscribe((currentTime) => {
+      this.setUsage(currentTime)
+    })
   }
 
   getFrontendUsageSubject() {
     return this.usageSubject
-  }
-
-  getCurrentTimeSubject() {
-    return this.currentTimeSubject
   }
 
   getStartTimeSubject() {
@@ -114,14 +108,12 @@ export class UsageService {
     return date.toLocaleString('default', { hour: '2-digit', minute: 'numeric', hour12: false });
   }
 
-  private isSameHalfHour(newTime: number, previousTime: number) {
-    return newTime < previousTime
+  private isSameHalfHour(newTime: number) {
+    return newTime < 0
   }
   private setUsage(currentTime: number) {
-    const previousTime = this.currentTimeSubject.getValue();
-    this.currentTimeSubject.next(currentTime)
-    if (!this.startTimeSubject.getValue() || this.isSameHalfHour(currentTime, previousTime)) {
-      console.log('Start time or same half hour', this.startTimeSubject.getValue(), currentTime, previousTime)
+    if (!this.startTimeSubject.getValue() || this.isSameHalfHour(currentTime)) {
+      console.log('Start time or same half hour', this.startTimeSubject.getValue(), currentTime)
       return;
     }
     const beforeUsage: FrontendUsage[] = [];

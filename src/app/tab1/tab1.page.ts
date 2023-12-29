@@ -5,6 +5,7 @@ import { UsageService} from "../services/usage.service";
 import {UsageTableComponent} from "./components/usage-table/usage-table.component";
 import {setNotifications} from "../services/notification.util";
 import {DatetimeChangeEventDetail} from "@ionic/angular";
+import {TimeService} from "../services/time/time.service";
 
 @Component({
   selector: 'app-tab1',
@@ -22,7 +23,7 @@ export class Tab1Page {
   endAt: string;
   selectedTime: string = '';
 
-  constructor(private usageService: UsageService) {
+  constructor(private usageService: UsageService, private timeService: TimeService) {
     this.startedAt = '';
     this.endAt = '';
     const now = Date.now()
@@ -30,11 +31,10 @@ export class Tab1Page {
       milliseconds: now,
       hourMinutes: usageService.convertDate(new Date(now))
     };
-    usageService.getCurrentTimeSubject().subscribe((currentTime) => {
+    this.timeService.getCurrentTimeSubject().subscribe((currentTime) => {
       this.currentTime = {
         milliseconds: currentTime,
         hourMinutes: usageService.convertDate(new Date(currentTime))
-
       }
     })
 

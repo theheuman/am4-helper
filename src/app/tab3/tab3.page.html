@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 3
+    <ion-title class="ion-text-center">
+      Price input
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,8 +9,17 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+      <ion-title size="large" class="ion-text-center">Price Input</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <div class="content-container">
+    <ion-textarea (ionChange)="updateInput($event)" auto-grow="true">
+
+    </ion-textarea>
+    <ion-button type="submit" (click)="submitInput()">
+      Submit
+    </ion-button>
+  </div>
 
 </ion-content>

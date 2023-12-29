@@ -30,20 +30,19 @@ export class Tab1Page {
       milliseconds: now,
       hourMinutes: usageService.convertDate(new Date(now))
     };
+    usageService.getCurrentTimeSubject().subscribe((currentTime) => {
+      this.currentTime = {
+        milliseconds: currentTime,
+        hourMinutes: usageService.convertDate(new Date(currentTime))
 
-    usageService.getStartTime().then((milliseconds) => {
+      }
+    })
+
+    usageService.getStartTimeSubject().subscribe((milliseconds) => {
       this.startedAt = this.usageService.convertDate(new Date(milliseconds));
       this.endAt = this.usageService.convertDate(new Date(this.usageService.getEndTime()))
       setNotifications(milliseconds)
     })
-
-    setInterval(() => {
-      const now = Date.now()
-      this.currentTime = {
-        milliseconds: now,
-        hourMinutes: usageService.convertDate(new Date(now))
-      };
-    }, 20000);
   }
 
   startDay() {

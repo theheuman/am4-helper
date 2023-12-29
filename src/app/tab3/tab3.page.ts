@@ -50,6 +50,9 @@ export class Tab3Page {
     this.priceService.setPrices(mappedHalfHours).then(() => {
       this.inputValue = ''
     })
+      .catch((message) => {
+        alert("Unable to save: " + message)
+      })
   }
 
   createDateFromHhmm(hours: number, minutes: number, previousTime: Date | undefined) {

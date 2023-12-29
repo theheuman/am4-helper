@@ -51,10 +51,8 @@ export class PriceService {
       key: storageKey,
       value: JSON.stringify(allPrices),
     })
-    console.log("set prices", JSON.stringify(allPrices))
     this.prices = allPrices;
     this.pricesSubject.next(this.prices)
-
   }
 
   reset() {

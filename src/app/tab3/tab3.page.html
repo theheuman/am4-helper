@@ -14,7 +14,7 @@
   </ion-header>
 
   <div class="content-container">
-    <ion-textarea (ionChange)="updateInput($event)" auto-grow="true">
+    <ion-textarea (ionChange)="updateInput($event)" auto-grow="true" [value]="inputValue">
 
     </ion-textarea>
     <ion-button type="submit" (click)="submitInput()">

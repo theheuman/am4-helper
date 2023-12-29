@@ -47,7 +47,9 @@ export class Tab3Page {
         co2,
       })
     }
-    this.priceService.setPrices(mappedHalfHours)
+    this.priceService.setPrices(mappedHalfHours).then(() => {
+      this.inputValue = ''
+    })
   }
 
   createDateFromHhmm(hours: number, minutes: number, previousTime: Date | undefined) {

@@ -20,19 +20,17 @@ export class PriceService {
 
   async getPrices(refresh?: boolean): Promise<Price[]> {
     if (!refresh && this.prices.length > 1) {
-      console.log("Prices set", this.prices)
       return this.prices;
     }
     const storageResult = await Preferences.get({
       key: storageKey,
     })
-    console.log("Prices not set", storageResult.value)
     if (!storageResult.value) {
       throw Error('No prices found in storage')
     }
     const prices = JSON.parse(storageResult.value)
+    console.log(prices)
     this.prices = prices.map((price: {time: string, fuel: string, co2:string}) => ({time: new Date(price.time), fuel: Number(price.fuel), co2: Number(price.co2)}))
-    console.log(this.prices)
     return this.prices
 
   }

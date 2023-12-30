@@ -60,6 +60,7 @@ export class Tab3Page {
     const timeWithHours = now.setHours(hours)
     let time = new Date(new Date(timeWithHours).setMinutes(minutes));
     time = new Date(time.setSeconds(0));
+    time = new Date(time.setMilliseconds(0));
 
     // convert date from berlin time to est by getting the diff between the two
     const invdate = new Date(time.toLocaleString('en-US', {

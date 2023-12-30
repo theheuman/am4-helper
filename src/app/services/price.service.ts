@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Preferences} from "@capacitor/preferences";
 import {BehaviorSubject, Subject} from "rxjs";
+import {time} from "ionicons/icons";
 
 const storageKey = 'prices'
 
@@ -13,19 +14,19 @@ export interface Price {
   providedIn: 'root'
 })
 export class PriceService {
-  private prices: Price[] = []
-  private pricesSubject = new BehaviorSubject<Price[]>([])
+  // date.getTime() as key
+  private pricesSubject = new BehaviorSubject<Map<number, Price>>(new Map<number, Price>())
 
   constructor() {
     this.getPrices()
   }
 
-  getPricesSubject(): Subject<Price[]> {
+  getPricesSubject(): BehaviorSubject<Map<number, Price>> {
     return this.pricesSubject
   }
 
   private async getPrices(refresh?: boolean) {
-    if (!refresh && this.prices.length > 1) {
+    if (!refresh && this.pricesSubject.getValue().size > 1) {
       return;
     }
     const storageResult = await Preferences.get({
@@ -34,32 +35,38 @@ export class PriceService {
     if (!storageResult.value) {
       throw Error('No prices found in storage')
     }
-    const prices = JSON.parse(storageResult.value)
-    this.prices = prices.map((price: {time: string, fuel: string, co2:string}) => ({time: new Date(price.time), fuel: Number(price.fuel), co2: Number(price.co2)}))
-    this.pricesSubject.next(this.prices)
+    const prices: {time: string, fuel: string, co2:string}[] = JSON.parse(storageResult.value)
+    const mappedPrices = this.mapArrayToHash(prices.map((price) => ({time: new Date(price.time), co2: Number(price.co2), fuel: Number(price.fuel)})))
+    this.pricesSubject.next(mappedPrices)
 
   }
 
   async setPrices(prices: Price[]) {
-    const lastPreviousEntry = this.prices[this.prices.length - 1]
-    if (lastPreviousEntry && (lastPreviousEntry.time > prices[0].time)) {
+    const lastPrices = [...this.pricesSubject.getValue().values()];
+    const lastOfPreviousEntry = lastPrices[-1]
+    if (lastOfPreviousEntry && (lastOfPreviousEntry.time > prices[0].time)) {
       throw Error("Your new prices are before previously set prices")
     }
     const now = new Date()
-    const allPrices: Price[] = [...this.prices, ...prices].filter((price) => price.time.getDate() > (now.getDate() - 2))
+    const allPrices: Price[] = [...lastPrices, ...prices].filter((price) => price.time.getDate() > (now.getDate() - 2))
     await Preferences.set({
       key: storageKey,
       value: JSON.stringify(allPrices),
     })
-    this.prices = allPrices;
-    this.pricesSubject.next(this.prices)
+    this.pricesSubject.next(this.mapArrayToHash(allPrices))
   }
 
   reset() {
-    this.prices = [];
-    this.pricesSubject.next([])
+    this.pricesSubject.next(new Map<number, Price>())
     return Preferences.remove({
       key: storageKey,
     })
+  }
+
+  mapArrayToHash(priceArray: Price[]): Map<number, Price> {
+    return new Map(priceArray.map(
+        (price ) => {
+          return [price.time.getTime(), { time: price.time, fuel: Number(price.fuel), co2: Number(price.co2)}]
+        }));
   }
 }

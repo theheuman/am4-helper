@@ -24,7 +24,7 @@ export class Tab2Page {
 
   constructor(private priceService: PriceService) {
     this.priceService.getPricesSubject().subscribe((prices) => {
-      this.prices = prices
+      this.prices = [...prices.values()]
     })
   }
 

@@ -36,10 +36,10 @@ export class UsageTableComponent {
     addIcons({ caretUp, caretDown });
 
     this.usageService.getFrontendUsageSubject().subscribe(({before, after, current}) => {
-      console.log('New usage', after)
       this.beforeUsage = before
       this.afterUsage = after
       this.currentHalfHour = current
+      console.log(this.currentHalfHour?.co2.price)
     })
   }
 

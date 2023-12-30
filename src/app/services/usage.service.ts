@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {getRawDataConvertedToNumbers} from "./usage.data";
 import {BehaviorSubject} from "rxjs";
 import {TimeService} from "./time/time.service";
+import {Price, PriceService} from "./price.service";
 
 export interface CalculatedUsageValues {
   low: number;
@@ -19,10 +20,12 @@ export interface FrontendUsage {
   co2: {
     total: CalculatedUsageValues,
     individual: CalculatedUsageValues,
+    price?: number,
   },
   fuel: {
     total: CalculatedUsageValues,
     individual: CalculatedUsageValues,
+    price?: number,
   }
 }
 
@@ -38,7 +41,7 @@ export class UsageService {
   previousTime = 0;
   private intervalTimeInMilliseconds = 30*60*1000
 
-  constructor(private timeService: TimeService) {
+  constructor(private timeService: TimeService, private priceService: PriceService) {
     this.setUsage(Date.now())
 
     this.timeService.getDayParametersSubject().subscribe(() => {
@@ -47,6 +50,10 @@ export class UsageService {
     })
     this.timeService.getCurrentTimeSubject().subscribe((currentTime) => {
       this.setUsage(currentTime)
+    })
+    this.priceService.getPricesSubject().subscribe((prices) => {
+      this.previousTime = 0; // reset previous time to trigger rerender of table
+      this.setUsage(this.timeService.currentTime.getValue())
     })
   }
 
@@ -69,10 +76,8 @@ export class UsageService {
   private setUsage(currentTime: number) {
     const startTime = this.timeService.getDayParametersSubject().getValue().startTime
     if (!startTime || this.isSameHalfHour(currentTime, this.previousTime)) {
-      console.log('Start time or same half hour, not emitting', new Date(currentTime))
       return;
     }
-    console.log("current time is new half hour emitting", new Date(currentTime))
     this.previousTime = currentTime
     const beforeUsage: FrontendUsage[] = [];
     const afterUsage: FrontendUsage[] = [];
@@ -98,16 +103,18 @@ export class UsageService {
       },
     }
 
+    const prices = this.priceService.getPricesSubject().getValue()
     this.getBackEndUsage().forEach((usageEntry, index) => {
       const epochTime = startTimeDate.getTime() + (index * this.intervalTimeInMilliseconds);
       const localDate = new Date(epochTime)
+      const matchingPrice = prices.get(localDate.getTime())
       const cet = localDate.toLocaleString('default', { hour: '2-digit', minute: 'numeric', hour12: false, timeZone: 'Europe/Berlin' })
       usageEntry.time = this.convertDate(localDate) + ' (' + cet + ')';
       if (epochTime < currentTime) {
-        beforeUsage.push(this.mapToFrontend(previousEntry, usageEntry))
+        beforeUsage.push(this.mapToFrontend(previousEntry, usageEntry, matchingPrice))
       }
       else {
-        const frontendEntry = this.mapToFrontend(previousEntry, usageEntry)
+        const frontendEntry = this.mapToFrontend(previousEntry, usageEntry, matchingPrice)
         afterUsage.push(frontendEntry)
         previousEntry.co2 = frontendEntry.co2.total;
         previousEntry.fuel = frontendEntry.fuel.total;
@@ -142,7 +149,7 @@ export class UsageService {
     })
   }
 
-  mapToFrontend(previousUsage: {co2: CalculatedUsageValues, fuel: CalculatedUsageValues}, usageEntry: ResourceUsage): FrontendUsage {
+  mapToFrontend(previousUsage: {co2: CalculatedUsageValues, fuel: CalculatedUsageValues}, usageEntry: ResourceUsage, matchingPrice?: Price): FrontendUsage {
     const totalCo2: CalculatedUsageValues = {
       low: previousUsage.co2.low + usageEntry.co2.low,
       high: previousUsage.co2.high + usageEntry.co2.high,
@@ -157,11 +164,13 @@ export class UsageService {
       time: usageEntry.time,
       co2: {
         total: totalCo2,
-        individual: usageEntry.co2
+        individual: usageEntry.co2,
+        price: matchingPrice?.co2,
       },
       fuel: {
         total: totalFuel,
-        individual: usageEntry.fuel
+        individual: usageEntry.fuel,
+        price: matchingPrice?.fuel
       }
     }
   }

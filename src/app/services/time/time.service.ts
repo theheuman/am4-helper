@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
+import {Preferences} from "@capacitor/preferences";
+
+const storageKey = 'dayStart';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +16,7 @@ export class TimeService {
 
   constructor() {
     this.initializeCurrentTime()
+    this.initializeStartTime()
   }
 
   private initializeCurrentTime() {
@@ -32,7 +36,55 @@ export class TimeService {
     }, secondsRemaining);
   }
 
+  async initializeStartTime() {
+    const storageResult = await Preferences.get({
+      key: storageKey,
+    })
+    if (!storageResult.value) {
+      throw Error('No start time value in storage')
+    }
+    const startTime = Number(storageResult.value)
+    this.dayParameters.next({
+      startTime: startTime,
+      endTime: this.getEndTime(startTime),
+    });
+  }
+
+  async setStartTime(date?: Date) {
+    const startTime = !!date ? date.getTime() : Date.now();
+
+    await Preferences.set({
+      key: storageKey,
+      value: startTime + '',
+    })
+
+    this.dayParameters.next({
+      startTime: startTime,
+      endTime: this.getEndTime(startTime),
+    });
+  }
+
+
+  private getEndTime(startTime: number) {
+    const sixteenHours = 57600000
+    return startTime + sixteenHours;
+  }
+
+  reset() {
+    this.dayParameters.next({
+      startTime: 0,
+      endTime: 0,
+    });
+    return Preferences.remove({
+      key: storageKey,
+    })
+  }
+
   getCurrentTimeSubject() {
     return this.currentTime
+  }
+
+  getDayParametersSubject() {
+    return this.dayParameters
   }
 }

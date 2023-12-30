@@ -38,27 +38,25 @@ export class Tab1Page {
       }
     })
 
-    usageService.getStartTimeSubject().subscribe((milliseconds) => {
-      this.startedAt = this.usageService.convertDate(new Date(milliseconds));
-      this.endAt = this.usageService.convertDate(new Date(this.usageService.getEndTime()))
-      setNotifications(milliseconds)
+    timeService.getDayParametersSubject().subscribe(({startTime, endTime}) => {
+      if (!startTime) {
+        this.startedAt = '';
+        this.endAt = '';
+        return
+      }
+      this.startedAt = this.usageService.convertDate(new Date(startTime));
+      this.endAt = this.usageService.convertDate(new Date(endTime))
+      setNotifications(startTime)
     })
   }
 
   startDay() {
     const selectedStartTime = !!this.selectedTime ? new Date(this.selectedTime) : undefined
-    this.usageService.setStartTime(selectedStartTime).then((milliseconds) => {
-      this.startedAt = this.usageService.convertDate(new Date(milliseconds));
-      this.endAt = this.usageService.convertDate(new Date(this.usageService.getEndTime()))
-      setNotifications(milliseconds)
-    })
+    this.timeService.setStartTime(selectedStartTime);
   }
 
   reset() {
-    this.usageService.reset().then(() => {
-      this.startedAt = '';
-      this.endAt = '';
-    })
+    this.timeService.reset()
   }
 
   selectTime(event: Event) {

@@ -4,8 +4,6 @@ import {getRawDataConvertedToNumbers} from "./usage.data";
 import {BehaviorSubject} from "rxjs";
 import {TimeService} from "./time/time.service";
 
-const storageKey = 'dayStart';
-
 export interface CalculatedUsageValues {
   low: number;
   high: number;
@@ -33,8 +31,6 @@ export interface FrontendUsage {
   providedIn: 'root'
 })
 export class UsageService {
-  private startTimeSubject = new BehaviorSubject<number>(0);
-  private endTime: number;
   private usageSubject = new BehaviorSubject<{
     before: FrontendUsage[],
     after: FrontendUsage[],
@@ -43,11 +39,11 @@ export class UsageService {
   private intervalTimeInMilliseconds = 30*60*1000
 
   constructor(private timeService: TimeService) {
-    this.endTime = 0;
     this.setUsage(Date.now())
 
-    this.initializeStartTime()
-    this.startTimeSubject.subscribe(() => this.setUsage(this.timeService.currentTime.getValue()))
+    this.timeService.getDayParametersSubject().subscribe(() =>
+      this.setUsage(this.timeService.currentTime.getValue())
+    )
     this.timeService.getCurrentTimeSubject().subscribe((currentTime) => {
       this.setUsage(currentTime)
     })
@@ -55,53 +51,6 @@ export class UsageService {
 
   getFrontendUsageSubject() {
     return this.usageSubject
-  }
-
-  getStartTimeSubject() {
-    return this.startTimeSubject
-  }
-
-  async initializeStartTime() {
-    const storageResult = await Preferences.get({
-      key: storageKey,
-    })
-    if (!storageResult.value) {
-      throw Error('No start time value in storage')
-    }
-    const startTime = Number(storageResult.value)
-    this.startTimeSubject.next(startTime);
-    this.setEndTime(startTime)
-  }
-
-  async setStartTime(date?: Date): Promise<number> {
-    const startTime = !!date ? date.getTime() : Date.now();
-
-    await Preferences.set({
-      key: storageKey,
-      value: startTime + '',
-    })
-
-    this.startTimeSubject.next(startTime);
-    this.setEndTime(startTime)
-    return startTime;
-
-  }
-
-  getEndTime() {
-    return this.endTime;
-  }
-
-  private setEndTime(startTime: number) {
-    const sixteenHours = 57600000
-    this.endTime = startTime + sixteenHours;
-  }
-
-  reset() {
-    this.startTimeSubject.next(0);
-    this.endTime = 0;
-    return Preferences.remove({
-      key: storageKey,
-    })
   }
 
   convertDate(date: Date) {
@@ -112,14 +61,15 @@ export class UsageService {
     return newTime < 0
   }
   private setUsage(currentTime: number) {
-    if (!this.startTimeSubject.getValue() || this.isSameHalfHour(currentTime)) {
-      console.log('Start time or same half hour', this.startTimeSubject.getValue(), currentTime)
+    const startTime = this.timeService.getDayParametersSubject().getValue().startTime
+    if (!startTime || this.isSameHalfHour(currentTime)) {
+      console.log('Start time or same half hour', currentTime)
       return;
     }
     const beforeUsage: FrontendUsage[] = [];
     const afterUsage: FrontendUsage[] = [];
 
-    const startTimeDate = new Date(this.startTimeSubject.getValue())
+    const startTimeDate = new Date(startTime)
     const minutes = startTimeDate.getMinutes()
     if (minutes < 30) {
       startTimeDate.setMinutes(0)

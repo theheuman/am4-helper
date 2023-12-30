@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {Preferences} from "@capacitor/preferences";
 import {getRawDataConvertedToNumbers} from "./usage.data";
 import {BehaviorSubject} from "rxjs";
 import {TimeService} from "./time/time.service";
@@ -36,14 +35,16 @@ export class UsageService {
     after: FrontendUsage[],
     current: FrontendUsage | undefined,
   }>({before: [], after: [], current: undefined})
+  previousTime = 0;
   private intervalTimeInMilliseconds = 30*60*1000
 
   constructor(private timeService: TimeService) {
     this.setUsage(Date.now())
 
-    this.timeService.getDayParametersSubject().subscribe(() =>
+    this.timeService.getDayParametersSubject().subscribe(() => {
+      this.previousTime = 0; // reset previous time on day start
       this.setUsage(this.timeService.currentTime.getValue())
-    )
+    })
     this.timeService.getCurrentTimeSubject().subscribe((currentTime) => {
       this.setUsage(currentTime)
     })
@@ -57,15 +58,22 @@ export class UsageService {
     return date.toLocaleString('default', { hour: '2-digit', minute: 'numeric', hour12: false });
   }
 
-  private isSameHalfHour(newTime: number) {
-    return newTime < 0
+  private isSameHalfHour(newTime: number, previousTime: number) {
+    const newAsDate = new Date(newTime);
+    const prevAsDate = new Date(previousTime);
+    const newIsSecondHalf = newAsDate.getMinutes() >= 30
+    const previousIsSecondHalf = prevAsDate.getMinutes() >= 30
+    return newAsDate.getHours() === prevAsDate.getHours() && newIsSecondHalf === previousIsSecondHalf
   }
+
   private setUsage(currentTime: number) {
     const startTime = this.timeService.getDayParametersSubject().getValue().startTime
-    if (!startTime || this.isSameHalfHour(currentTime)) {
-      console.log('Start time or same half hour', currentTime)
+    if (!startTime || this.isSameHalfHour(currentTime, this.previousTime)) {
+      console.log('Start time or same half hour, not emitting', new Date(currentTime))
       return;
     }
+    console.log("current time is new half hour emitting", new Date(currentTime))
+    this.previousTime = currentTime
     const beforeUsage: FrontendUsage[] = [];
     const afterUsage: FrontendUsage[] = [];
 

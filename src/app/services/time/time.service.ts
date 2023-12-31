@@ -44,9 +44,10 @@ export class TimeService {
       throw Error('No start time value in storage')
     }
     const startTime = Number(storageResult.value)
+    const endTime = this.getEndTime(startTime)
     this.dayParameters.next({
-      startTime: startTime,
-      endTime: this.getEndTime(startTime),
+      startTime,
+      endTime,
     });
   }
 
@@ -67,7 +68,11 @@ export class TimeService {
 
   private getEndTime(startTime: number) {
     const sixteenHours = 57600000
-    return startTime + sixteenHours;
+    const endTime = startTime + sixteenHours;
+    if (endTime < Date.now()) {
+      throw Error('End time before now, start new day')
+    }
+    return endTime;
   }
 
   reset() {

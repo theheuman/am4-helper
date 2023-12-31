@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {CalculatedUsageValues, FrontendUsage, ResourceUsage, UsageService} from "../../../services/usage.service";
+import {Component, Input} from '@angular/core';
+import {FrontendUsage, UsageService} from "../../../services/usage.service";
 import {DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {MillionPipe} from "../../../pipes/million.pipe";
 import {addIcons} from "ionicons";
@@ -39,7 +39,6 @@ export class UsageTableComponent {
       this.beforeUsage = before
       this.afterUsage = after
       this.currentHalfHour = current
-      console.log(this.currentHalfHour?.co2.price)
     })
   }
 

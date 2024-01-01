@@ -11,14 +11,13 @@ import {
 } from '@ionic/angular/standalone';
 import {PriceService} from "../services/price.service";
 import {CurrencyPipe, NgIf} from "@angular/common";
-import {UsageTableComponent} from "../tab1/components/usage-table/usage-table.component";
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonTextarea, IonButton, IonInput, IonLabel, IonCol, IonRow, CurrencyPipe, NgIf, UsageTableComponent],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonTextarea, IonButton, IonInput, IonLabel, IonCol, IonRow, CurrencyPipe, NgIf],
 })
 export class Tab3Page {
   inputValue: string = '';

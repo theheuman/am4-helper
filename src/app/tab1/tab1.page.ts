@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonDatetime} from '@ionic/angular/standalone';
 import {NgIf} from "@angular/common";
 import { UsageService} from "../services/usage.service";
-import {UsageTableComponent} from "./components/usage-table/usage-table.component";
 import {setNotifications} from "../services/notification.util";
 import {DatetimeChangeEventDetail} from "@ionic/angular";
 import {TimeService} from "../services/time/time.service";
@@ -12,7 +11,7 @@ import {TimeService} from "../services/time/time.service";
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonDatetime, NgIf, UsageTableComponent],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonDatetime, NgIf],
 })
 export class Tab1Page {
   startedAt: string;

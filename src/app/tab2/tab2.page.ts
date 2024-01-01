@@ -11,7 +11,7 @@ import {
 } from '@ionic/angular/standalone';
 import {Price, PriceService} from "../services/price.service";
 import {CurrencyPipe, DecimalPipe, NgClass, NgForOf} from "@angular/common";
-import {UsageTableComponent} from "../tab1/components/usage-table/usage-table.component";
+import {UsageTableComponent} from "./components/usage-table/usage-table.component";
 
 @Component({
   selector: 'app-tab2',

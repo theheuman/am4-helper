@@ -11,7 +11,7 @@
     </ion-col>
   </ion-row>
   <ng-container *ngIf="showBefore">
-    <app-usage-row *ngFor="let usageEntry of beforeUsage" [usageEntry]="usageEntry"/>
+    <app-usage-row *ngFor="let usageEntry of beforeUsage" [usageEntry]="usageEntry" [showPrice]="true"/>
   </ng-container>
   <ion-row class="separator" *ngIf="beforeUsage.length > 0">
     <ion-col></ion-col>
@@ -19,12 +19,12 @@
     <ion-col></ion-col>
   </ion-row>
   <ng-container *ngIf="!!currentHalfHour">
-    <app-usage-row [usageEntry]="currentHalfHour" [isCurrent]="true"/>
+    <app-usage-row [usageEntry]="currentHalfHour" [isCurrent]="true" [showPrice]="true"/>
   </ng-container>
   <ion-row class="separator" *ngIf="beforeUsage.length > 0">
     <ion-col></ion-col>
     <ion-col></ion-col>
     <ion-col></ion-col>
   </ion-row>
-  <app-usage-row *ngFor="let usageEntry of afterUsage" [usageEntry]="usageEntry" [showTotal]="true"/>
+  <app-usage-row *ngFor="let usageEntry of afterUsage" [usageEntry]="usageEntry" [showTotal]="true" [showPrice]="true"/>
 </ion-grid>

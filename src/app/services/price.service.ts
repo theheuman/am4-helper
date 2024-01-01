@@ -66,6 +66,7 @@ export class PriceService {
   mapArrayToHash(priceArray: Price[]): Map<number, Price> {
     return new Map(priceArray.map(
         (price ) => {
+          console.log("Saved price", price)
           return [price.time.getTime(), { time: price.time, fuel: Number(price.fuel), co2: Number(price.co2)}]
         }));
   }

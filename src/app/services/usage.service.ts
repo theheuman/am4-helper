@@ -110,6 +110,7 @@ export class UsageService {
       const matchingPrice = prices.get(localDate.getTime())
       const cet = localDate.toLocaleString('default', { hour: '2-digit', minute: 'numeric', hour12: false, timeZone: 'Europe/Berlin' })
       usageEntry.time = this.convertDate(localDate) + ' (' + cet + ')';
+      console.log(matchingPrice)
       if (epochTime < currentTime) {
         beforeUsage.push(this.mapToFrontend(previousEntry, usageEntry, matchingPrice))
       }

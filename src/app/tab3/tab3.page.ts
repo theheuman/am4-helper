@@ -27,7 +27,8 @@ export class Tab3Page {
   submitInput() {
     const mappedHalfHours = []
     const halfHours = this.inputValue.split('<:clock_white:1076054104905887744>')
-    let previousTime = undefined;
+    const previousTimes = [...this.priceService.getPricesSubject().getValue().values()]
+    let previousTime: Date | undefined = previousTimes[previousTimes.length - 1]?.time
     for (const halfHour of halfHours) {
       const halfHourSplit = halfHour.split('\n')
       if (!halfHourSplit[1]) {

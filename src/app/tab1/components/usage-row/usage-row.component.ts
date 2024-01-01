@@ -1,6 +1,6 @@
 import {Component, Input } from '@angular/core';
 import {CalculatedUsageValues, FrontendUsage} from "../../../services/usage.service";
-import {NgClass, NgIf} from "@angular/common";
+import {CurrencyPipe, NgClass, NgIf} from "@angular/common";
 import {MillionPipe} from "../../../pipes/million.pipe";
 import {IonCol, IonIcon, IonRow} from "@ionic/angular/standalone";
 
@@ -16,12 +16,14 @@ import {IonCol, IonIcon, IonRow} from "@ionic/angular/standalone";
     MillionPipe,
     NgClass,
     NgIf,
+    CurrencyPipe,
   ]
 })
 export class UsageRowComponent {
   @Input() usageEntry!: FrontendUsage
   @Input() isCurrent = false
   @Input() showTotal = false
+  @Input() showPrice = false
   showDetails = false;
 
   constructor() { }

@@ -14,8 +14,18 @@
   </ion-header>
 
   <div class="content-container">
+    <ion-input (ionChange)="updateDistance($event)" type="number" >
+      <ion-label>Distance</ion-label>
+    </ion-input>
+    <ion-button type="submit" (click)="calculateTicketPrices()">
+      Calculate
+    </ion-button>
+    <ion-row *ngIf="ticketPrices">
+      <ion-col>{{ticketPrices.y | currency}}</ion-col>
+      <ion-col>{{ticketPrices.j | currency}}</ion-col>
+      <ion-col>{{ticketPrices.f | currency}}</ion-col>
+    </ion-row>
     <ion-textarea (ionChange)="updateInput($event)" auto-grow="true" [value]="inputValue">
-
     </ion-textarea>
     <ion-button type="submit" (click)="submitInput()">
       Submit

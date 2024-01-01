@@ -24,7 +24,6 @@ import { IonGrid, IonCol, IonRow } from '@ionic/angular/standalone';
   ]
 })
 export class UsageTableComponent {
-  @Input() currentTime!: number;
   beforeUsage: FrontendUsage[] = []
   afterUsage: FrontendUsage[] = []
   currentHalfHour: FrontendUsage | undefined;

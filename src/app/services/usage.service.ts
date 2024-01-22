@@ -29,6 +29,24 @@ export interface FrontendUsage {
   }
 }
 
+interface ResourceBuy {
+  reserves: {
+    average: number,
+    high: number
+  }
+  buy: {
+    average: number,
+    high: number
+  }
+}
+export interface BuyingGuideEntry {
+  fuel: ResourceBuy,
+  co2: ResourceBuy,
+}
+
+const fuelCapacity = 40000000
+const co2Capacity = 35000000
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,6 +56,7 @@ export class UsageService {
     after: FrontendUsage[],
     current: FrontendUsage | undefined,
   }>({before: [], after: [], current: undefined})
+  private buyingGuideSubject = new BehaviorSubject<BuyingGuideEntry[]>([])
   previousTime = 0;
   private intervalTimeInMilliseconds = 30*60*1000
 
@@ -63,6 +82,48 @@ export class UsageService {
 
   convertDate(date: Date) {
     return date.toLocaleString('default', { hour: '2-digit', minute: 'numeric', hour12: false });
+  }
+
+  calculateGuide(usage: FrontendUsage[]) {
+    const guide: BuyingGuideEntry[] = []
+    let indexOutside = 0
+    for (const currentEntry of usage) {
+      const guideEntry: BuyingGuideEntry = {
+        fuel: {
+          reserves: {
+            average: fuelCapacity,
+            high: fuelCapacity
+          },
+          buy: {
+            average: currentEntry.fuel.individual.average,
+            high: currentEntry.fuel.individual.high
+          }
+        },
+        co2: {
+          reserves: {
+            average: fuelCapacity,
+            high: fuelCapacity
+          },
+          buy: {
+            average: currentEntry.co2.individual.average,
+            high: currentEntry.co2.individual.high
+          }
+        }
+      }
+
+      const currentFuelPrice = currentEntry.fuel.price ?? 1400
+      const currentCo2price = currentEntry.co2.price ?? 150
+
+      for (let i = indexOutside + 1; i < usage.length; i++) {
+        const nextEntry = usage[i]
+        const nextFuelPrice = nextEntry.fuel.price ?? 1400
+        const nextCo2price = nextEntry.co2.price ?? 150
+        if (nextFuelPrice < currentFuelPrice) {
+          // calculate how much to buy for current entry
+        }
+      }
+      indexOutside++;
+    }
   }
 
   private isSameHalfHour(newTime: number, previousTime: number) {
@@ -110,7 +171,6 @@ export class UsageService {
       const matchingPrice = prices.get(localDate.getTime())
       const cet = localDate.toLocaleString('default', { hour: '2-digit', minute: 'numeric', hour12: false, timeZone: 'Europe/Berlin' })
       usageEntry.time = this.convertDate(localDate) + ' (' + cet + ')';
-      console.log(matchingPrice)
       if (epochTime < currentTime) {
         beforeUsage.push(this.mapToFrontend(previousEntry, usageEntry, matchingPrice))
       }

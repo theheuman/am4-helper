@@ -42,16 +42,7 @@ const addPrices = (prices, isEvenMonth, dayOfTheMonth, previousData) => {
 
   const createDateFromHhmm = (hours, minutes, isEvenMonth, dayOfTheMonth) => {
     const timeString = `2024-${isEvenMonth ? '02' : '01'}-${String(dayOfTheMonth).padStart(2, '0')}T${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00+01:00`
-    const now = new Date(timeString)
-
-    // convert date from berlin time to est by getting the diff between the two
-    const invdate = new Date(now.toLocaleString('en-US', {
-      timeZone: 'Europe/Berlin'
-    }));
-    const diff = Math.abs(now.getTime() - invdate.getTime());
-
-    // TODO what do here
-    return new Date(now.getTime() - diff)
+    return new Date(timeString)
   }
 
 const writeToFile = (mappedHours, isEvenMonth, dayOfTheMonth) => {
@@ -95,4 +86,4 @@ const main = (isEvenMonth, dayOfTheMonth) => {
   });
 }
 
-main(true, 22)
+main(false, 1)

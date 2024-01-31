@@ -86,4 +86,4 @@ const main = (isEvenMonth, dayOfTheMonth) => {
   });
 }
 
-main(true, 10)
+main(false, 31)

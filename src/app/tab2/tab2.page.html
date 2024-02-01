@@ -14,7 +14,11 @@
   </ion-header>
 
   <div class="content-container">
-    <app-usage-table/>
+    <ion-row *ngFor="let price of prices">
+      <ion-col>{{ price.time | date:'HH:mm' }}</ion-col>
+      <ion-col>{{ price.fuel }}</ion-col>
+      <ion-col>{{ price.co2 }}</ion-col>
+    </ion-row>
   </div>
 
 </ion-content>

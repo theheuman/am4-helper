@@ -25,15 +25,6 @@
       <ion-col>{{ticketPrices.j | currency}}</ion-col>
       <ion-col>{{ticketPrices.f | currency}}</ion-col>
     </ion-row>
-    <ion-textarea (ionChange)="updateInput($event)" auto-grow="true" [value]="inputValue">
-    </ion-textarea>
-    <ion-button type="submit" (click)="submitInput()">
-      Submit
-    </ion-button>
-
-    <ion-button (click)="reset()" color="danger">
-      Reset Prices
-    </ion-button>
   </div>
 
 </ion-content>

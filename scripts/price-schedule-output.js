@@ -25,12 +25,15 @@ const outputPrices = (data, day) => {
     console.error("No prices for selected date")
     return
   }
-  selectedDate.map((halfHourPrice) => {
+  selectedDate.map((halfHourPrice, index) => {
     const timestamp = new Date(halfHourPrice.time).getTime() / 1000
     const fuelString = ':fuelpump: ' + halfHourPrice.fuel + ' ' + (halfHourPrice.fuel <= 600 ? ':green_line:' : ':red_line:')
     const co2String = ':seedling: ' + halfHourPrice.co2 + ' ' + (halfHourPrice.co2 <= 135 ? ':green_line:' : ':red_line:')
     const outputString = `<t:${timestamp}:t>  ${fuelString}  ${co2String}`
     console.log(outputString)
+    if (index === 16 || index === 32) {
+      console.log('-------')
+    }
   })
 }
 
@@ -40,7 +43,7 @@ const main = () => {
       console.error(err);
       return;
     }
-    outputPrices(data, '1')
+    outputPrices(data, '7')
   });
 }
 

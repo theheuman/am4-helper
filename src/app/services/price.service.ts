@@ -28,9 +28,12 @@ export class PriceService {
       return;
     }
     const now = new Date()
-    const todaysDate = now.getUTCDate() + '' as '1'
-    console.log(todaysDate)
-    const prices: Price[] = resourcePrices[todaysDate].map((price) => ({time: new Date(price.time), fuel: price.fuel, co2: price.co2}))
+    const todaysUtcDate = now.getUTCDate()
+    const todaysResourceKey = todaysUtcDate + '' as '1' // casted to a valid key in the resource prices object
+    const tomorrowsResourceKey = todaysUtcDate + 1 + '' as '1'
+    const todaysPrices = resourcePrices[todaysResourceKey]
+    const tomorrowsPrices = resourcePrices[tomorrowsResourceKey]
+    const prices: Price[] = [...todaysPrices, ...tomorrowsPrices].map((price) => ({time: new Date(price.time), fuel: price.fuel, co2: price.co2}))
     const mappedPrices = this.mapArrayToHash(prices.map((price) => {
       const wrongMonthTime = new Date(price.time)
       const rightMonthTime = new Date(wrongMonthTime.setUTCMonth(now.getUTCMonth()))

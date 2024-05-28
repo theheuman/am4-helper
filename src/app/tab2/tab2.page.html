@@ -14,10 +14,10 @@
   </ion-header>
 
   <div class="content-container">
-    <ion-row *ngFor="let price of prices">
-      <ion-col>{{ price.time | date:'HH:mm' }}</ion-col>
-      <ion-col>{{ price.fuel }}</ion-col>
-      <ion-col>{{ price.co2 }}</ion-col>
+    <ion-row *ngFor="let price of prices" [ngClass]="[isCurrentHour(price) ? 'current-hour' : '']">
+      <ion-col class="ion-text-left">{{ price.time | date:'HH:mm' }}</ion-col>
+      <ion-col class="ion-text-right" [ngClass]="[price.fuel < 600 ? 'green' : price.fuel > 1300 ? 'red' : 'white']">{{ price.fuel }}</ion-col>
+      <ion-col class="ion-text-right" [ngClass]="[price.co2 < 130 ? 'green' : price.co2 > 170 ? 'red' : 'white']">{{ price.co2 }}</ion-col>
     </ion-row>
   </div>
 

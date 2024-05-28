@@ -20,13 +20,16 @@ const outputPrices = (data, day) => {
     return
   }
   const dataJson = JSON.parse(dataString);
-  const selectedDate = dataJson['evenMonth'][day]
+  const selectedDate = dataJson['oddMonth'][day]
   if (!selectedDate) {
     console.error("No prices for selected date")
     return
   }
   selectedDate.map((halfHourPrice, index) => {
-    const timestamp = new Date(halfHourPrice.time).getTime() / 1000
+    const now = new Date()
+    const wrongMonthTime = new Date(halfHourPrice.time)
+    const rightMonthTime = new Date(wrongMonthTime.setUTCMonth(now.getUTCMonth()))
+    const timestamp = rightMonthTime.getTime() / 1000
     const fuelString = ':fuelpump: ' + halfHourPrice.fuel + ' ' + (halfHourPrice.fuel <= 600 ? ':green_line:' : ':red_line:')
     const co2String = ':seedling: ' + halfHourPrice.co2 + ' ' + (halfHourPrice.co2 <= 135 ? ':green_line:' : ':red_line:')
     const outputString = `<t:${timestamp}:t>  ${fuelString}  ${co2String}`
@@ -43,7 +46,7 @@ const main = () => {
       console.error(err);
       return;
     }
-    outputPrices(data, '7')
+    outputPrices(data, '5')
   });
 }
 

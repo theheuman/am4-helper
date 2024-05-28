@@ -5,7 +5,12 @@
   color: var(--ion-color-success)
 }
 
-app-usage-table {
-  max-width: 500px;
+ion-row {
   width: 100%;
+  max-width: 200px;
 }
+
+.current-hour {
+  border: 1px solid white;
+}
+

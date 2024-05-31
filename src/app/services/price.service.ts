@@ -28,18 +28,23 @@ export class PriceService {
       return;
     }
     const now = new Date()
+    const tomorrow = new Date();
+    tomorrow.setDate(now.getDate()+1);
     const todaysUtcDate = now.getUTCDate()
+    const tomorrowsUtcDate = tomorrow.getUTCDate()
     const todaysResourceKey = todaysUtcDate + '' as '1' // casted to a valid key in the resource prices object
-    const tomorrowsResourceKey = todaysUtcDate + 1 + '' as '1'
-    const todaysPrices = resourcePrices[todaysResourceKey]
-    const tomorrowsPrices = resourcePrices[tomorrowsResourceKey]
-    const prices: Price[] = [...todaysPrices, ...tomorrowsPrices].map((price) => ({time: new Date(price.time), fuel: price.fuel, co2: price.co2}))
-    const mappedPrices = this.mapArrayToHash(prices.map((price) => {
-      const wrongMonthTime = new Date(price.time)
-      const rightMonthTime = new Date(wrongMonthTime.setUTCMonth(now.getUTCMonth()))
-      return {time: rightMonthTime, co2: Number(price.co2), fuel: Number(price.fuel)}
-    }))
+    const tomorrowsResourceKey = tomorrowsUtcDate + '' as '1'
+    const todaysPrices = resourcePrices[todaysResourceKey].map((price) => this.fixDate({time: new Date(price.time), fuel: price.fuel, co2: price.co2}, now))
+    let tomorrowsPrices = resourcePrices[tomorrowsResourceKey].map((price) => this.fixDate({time: new Date(price.time), fuel: price.fuel, co2: price.co2}, tomorrow))
+    const prices: Price[] = [...todaysPrices, ...tomorrowsPrices]
+    const mappedPrices = this.mapArrayToHash(prices)
     this.pricesSubject.next(mappedPrices)
+  }
+
+  fixDate(price: Price, correctDate: Date): Price {
+    const wrongMonthTime = new Date(price.time)
+    const rightMonthTime = new Date(wrongMonthTime.setUTCMonth(correctDate.getUTCMonth()))
+    return {time: rightMonthTime, co2: Number(price.co2), fuel: Number(price.fuel)}
   }
 
   mapArrayToHash(priceArray: Price[]): Map<number, Price> {

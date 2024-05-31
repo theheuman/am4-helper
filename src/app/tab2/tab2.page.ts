@@ -33,10 +33,11 @@ export class Tab2Page {
   // show if price is less than 1 hour old, but not more than 16 hours ahead
   shouldShowPrice(price: Price, now: Date) {
     const oneHourInMilliseconds = 1000 * 60 * 60
-    const sixtenHoursInMilliseconds = oneHourInMilliseconds * 16;
+    const hoursToShow = 23
+    const cutOffTime = oneHourInMilliseconds * hoursToShow;
     const isAfterNow = price.time.getTime()  >= now.getTime() - oneHourInMilliseconds
-    const isBefore16hoursFromNow = price.time.getTime() <= now.getTime() + sixtenHoursInMilliseconds
-    return isAfterNow && isBefore16hoursFromNow
+    const isBeforeCutoffTime = price.time.getTime() <= now.getTime() + cutOffTime
+    return isAfterNow && isBeforeCutoffTime
   }
 
   isCurrentHour(price: Price) {

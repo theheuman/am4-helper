@@ -14,17 +14,51 @@
   </ion-header>
 
   <div class="content-container">
-    <ion-input (ionChange)="updateDistance($event)" type="number" >
-      <ion-label>Distance</ion-label>
-    </ion-input>
-    <ion-button type="submit" (click)="calculateTicketPrices()">
+    <ion-label>Distance</ion-label>
+    <ion-input (ionChange)="updateDistance($event)" type="number" />
+    <div class="input-row">
+      <div class="input-col">
+        <ion-label>Demand Y</ion-label>
+        <ion-input (ionChange)="updateDemand($event, 'y')" type="number" />
+      </div>
+      <div class="input-col">
+        <ion-label>Demand J</ion-label>
+        <ion-input (ionChange)="updateDemand($event, 'j')" type="number" />
+      </div>
+      <div class="input-col">
+        <ion-label>Demand F</ion-label>
+        <ion-input (ionChange)="updateDemand($event, 'f')" type="number" />
+      </div>
+    </div>
+    <ion-label>Flights per day</ion-label>
+    <ion-input (ionChange)="updateFlights($event)" type="number" [value]="flightsPerDay" />
+    <ion-label>Passenger capacity</ion-label>
+    <ion-input style="margin-bottom: 20px" (ionChange)="updateSeats($event)" type="number" [value]="totalSeats" />
+    <ion-toggle (ionChange)="updateMode($event)">Realism</ion-toggle>
+    <ion-toggle (ionChange)="updateLounge($event)" [checked]="hasLounge">Exclusive Lounge</ion-toggle>
+    <ion-button type="submit" (click)="calculate()">
       Calculate
     </ion-button>
-    <ion-row *ngIf="ticketPrices">
-      <ion-col>{{ticketPrices.y | currency}}</ion-col>
-      <ion-col>{{ticketPrices.j | currency}}</ion-col>
-      <ion-col>{{ticketPrices.f | currency}}</ion-col>
-    </ion-row>
+    <ion-grid *ngIf="ticketPrices || seatAllotment">
+      <ion-row>
+        <ion-col></ion-col>
+        <ion-col>Y</ion-col>
+        <ion-col>J</ion-col>
+        <ion-col>F</ion-col>
+      </ion-row>
+      <ion-row *ngIf="ticketPrices">
+        <ion-col>Price</ion-col>
+        <ion-col>{{ticketPrices.y | currency}}</ion-col>
+        <ion-col>{{ticketPrices.j | currency}}</ion-col>
+        <ion-col>{{ticketPrices.f | currency}}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="seatAllotment">
+        <ion-col>Seats</ion-col>
+        <ion-col>{{seatAllotment.y}}</ion-col>
+        <ion-col>{{seatAllotment.j}}</ion-col>
+        <ion-col>{{seatAllotment.f}}</ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 
 </ion-content>

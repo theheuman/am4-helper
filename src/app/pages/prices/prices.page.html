@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Resource Prices (local time)
+      Resource Prices
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,11 +9,12 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Resource Prices (local time)</ion-title>
+      <ion-title size="large">Resource Prices</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div class="content-container">
+    <p>local time</p>
     <ion-row *ngFor="let price of prices" [ngClass]="[isCurrentHour(price) ? 'current-hour' : '']">
       <ion-col class="ion-text-left">{{ price.time | date:'HH:mm' }}</ion-col>
       <ion-col class="ion-text-right" [ngClass]="[price.fuel < 600 ? 'green' : price.fuel > 1300 ? 'red' : 'white']">{{ price.fuel }}</ion-col>

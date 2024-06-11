@@ -7,30 +7,30 @@ export const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'prices',
         loadComponent: () =>
           import('../prices/prices.page').then((m) => m.PricesPage),
       },
       {
-        path: 'tab2',
+        path: 'calculator',
         loadComponent: () =>
           import('../calculator/calculator.page').then((m) => m.CalculatorPage),
       },
       {
-        path: 'tab3',
+        path: 'guides',
         loadComponent: () =>
           import('../guides/guides.page').then((m) => m.GuidesPage),
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/prices',
         pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/prices',
     pathMatch: 'full',
   },
 ];

@@ -1,7 +1,7 @@
 {
-  "name": "app",
-  "short_name": "app",
-  "theme_color": "#1976d2",
+  "name": "AM4 Helper",
+  "short_name": "AM4H",
+  "theme_color": "#3dc2ff",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",

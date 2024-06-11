@@ -9,18 +9,17 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/angular/standalone';
-import {Price, PriceService} from "../services/price.service";
+import {Price, PriceService} from "../../services/price.service";
 import {CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
-import {UsageTableComponent} from "./components/usage-table/usage-table.component";
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss'],
+  selector: 'app-prices-page',
+  templateUrl: 'prices.page.html',
+  styleUrls: ['prices.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, NgForOf, IonCol, DecimalPipe, CurrencyPipe, NgClass, IonButton, UsageTableComponent, DatePipe, NgIf]
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, NgForOf, IonCol, DecimalPipe, CurrencyPipe, NgClass, IonButton, DatePipe, NgIf]
 })
-export class Tab2Page {
+export class PricesPage {
   prices: Price[] = [];
 
   constructor(private priceService: PriceService) {

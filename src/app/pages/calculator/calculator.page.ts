@@ -9,17 +9,16 @@ import {
   IonInput,
   IonLabel, IonCol, IonRow
 } from '@ionic/angular/standalone';
-import {PriceService} from "../services/price.service";
 import {CurrencyPipe, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss'],
+  templateUrl: 'calculator.page.html',
+  styleUrls: ['calculator.page.scss'],
   standalone: true,
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonTextarea, IonButton, IonInput, IonLabel, IonCol, IonRow, CurrencyPipe, NgIf],
 })
-export class Tab3Page {
+export class CalculatorPage {
   inputValue: string = '';
   distance: number = 0;
   ticketPrices: {
@@ -27,7 +26,7 @@ export class Tab3Page {
     j: number;
     f: number;
   } | undefined
-  constructor(private priceService: PriceService) {}
+  constructor() {}
 
   updateInput(event: Event) {
     const target = event.target as HTMLInputElement

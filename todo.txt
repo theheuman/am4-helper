@@ -1,1 +1,4 @@
-* convert guides to markdown
+* add optimization algorithm to seat allotment
+
+* make pressing guides more intuitive
+* make demand part of calculator more intuitive

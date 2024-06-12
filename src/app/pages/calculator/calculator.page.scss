@@ -42,3 +42,22 @@ ion-grid {
     padding: 15px;
   }
 }
+
+a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+p {
+  max-width: 700px;
+}
+
+.helper-images {
+  display: flex;
+  flex-direction: row;
+
+  img {
+    max-width: 250px;
+  }
+
+}

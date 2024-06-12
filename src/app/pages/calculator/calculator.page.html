@@ -15,6 +15,14 @@
 
   <div class="content-container">
     <ion-label>Distance</ion-label>
+    <a (click)="toggleDistanceHint()">Use the distance from the route research page, not the route creation page</a>
+    <ng-container *ngIf="showDistanceHint">
+      <p>This calculator needs the floor of the distance, the route creation page does not floor the distance, but rounds it instead. For example this route from dubai to lubbock says 13,035km's on the creation page, but this calculator needs the 13,034km's shown on the route research page</p>
+      <div class="helper-images">
+        <img src="assets/images/route-research.png" alt="route research image" />
+        <img src="assets/images/route-creation.png" alt="route creation image" />
+      </div>
+    </ng-container>
     <ion-input (ionChange)="updateDistance($event)" type="number" />
     <div class="input-row">
       <div class="input-col">
@@ -48,9 +56,9 @@
       </ion-row>
       <ion-row *ngIf="ticketPrices">
         <ion-col>Price</ion-col>
-        <ion-col>{{ticketPrices.y | currency}}</ion-col>
-        <ion-col>{{ticketPrices.j | currency}}</ion-col>
-        <ion-col>{{ticketPrices.f | currency}}</ion-col>
+        <ion-col>{{ticketPrices.y | currency : 'USD' : 'symbol' : '1.0-0'}}</ion-col>
+        <ion-col>{{ticketPrices.j | currency : 'USD' : 'symbol' : '1.0-0'}}</ion-col>
+        <ion-col>{{ticketPrices.f | currency : 'USD' : 'symbol' : '1.0-0'}}</ion-col>
       </ion-row>
       <ion-row *ngIf="seatAllotment">
         <ion-col>Seats</ion-col>

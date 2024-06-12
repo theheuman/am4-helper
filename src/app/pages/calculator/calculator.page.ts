@@ -20,6 +20,7 @@ import {ToggleCustomEvent} from "@ionic/angular";
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonTextarea, IonButton, IonInput, IonLabel, IonCol, IonRow, CurrencyPipe, NgIf, IonToggle, IonGrid],
 })
 export class CalculatorPage {
+  showDistanceHint = false;
   distance: number = 0;
   demand?: {
     y: number;
@@ -43,6 +44,10 @@ export class CalculatorPage {
   } | undefined
 
   constructor() {}
+
+  toggleDistanceHint() {
+    this.showDistanceHint = !this.showDistanceHint
+  }
 
   updateDistance(event: Event) {
     const target = event.target as HTMLInputElement
@@ -87,16 +92,16 @@ export class CalculatorPage {
   private calculateTicketPrices() {
     if (this.mode === 'easy') {
       this.ticketPrices = {
-        y: Math.floor(Math.floor((this.distance * 0.3 + 150)) * 1.1),
-        j: Math.floor(Math.floor((this.distance * 0.6 + 500)) * 1.08),
-        f: Math.floor(Math.floor((this.distance * 0.9 + 1000)) * 1.06),
+        y: Math.floor((this.distance * 0.4 + 170)) * 1.1,
+        j: Math.floor((this.distance * 0.8 + 560)) * 1.08,
+        f: Math.floor((this.distance * 1.2 + 1200)) * 1.06,
       }
     }
     else {
       this.ticketPrices = {
-        y: Math.floor((this.distance * 0.4 + 170)) * 1.1,
-        j: Math.floor((this.distance * 0.8 + 560)) * 1.08,
-        f: Math.floor((this.distance * 1.2 + 1200)) * 1.06,
+        y: Math.floor(Math.floor((this.distance * 0.3 + 150)) * 1.1),
+        j: Math.floor(Math.floor((this.distance * 0.6 + 500)) * 1.08),
+        f: Math.floor(Math.floor((this.distance * 0.9 + 1000)) * 1.06),
       }
     }
   }

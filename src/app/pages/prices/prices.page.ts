@@ -21,12 +21,16 @@ import {CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf} from "@angu
 })
 export class PricesPage {
   prices: Price[] = [];
+  timezone = '';
+  utcOffset = 0;
 
   constructor(private priceService: PriceService) {
     const now = new Date()
     this.priceService.getPricesSubject().subscribe((prices) => {
       this.prices = [...prices.values()].filter((price) => this.shouldShowPrice(price, now))
     })
+    this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    this.utcOffset = now.getTimezoneOffset() / 60;
   }
 
   // show if price is less than 1 hour old, but not more than 16 hours ahead
@@ -40,7 +44,6 @@ export class PricesPage {
   }
 
   isCurrentHour(price: Price) {
-    const thirtyMinutesInMilliseconds = 1000 * 60 * 30
     const now = new Date()
     now.setMinutes(now.getMinutes() >= 30 ? 30 : 0)
     return price.time.getDate() === now.getDate() && price.time.getHours() === now.getHours() && price.time.getMinutes() === now.getMinutes()

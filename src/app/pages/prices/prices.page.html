@@ -14,7 +14,8 @@
   </ion-header>
 
   <div class="content-container">
-    <p>local time</p>
+    <p style="margin: 0; padding: 0">Your timezone: <span style="color: var(--ion-color-primary)">{{timezone}}</span></p>
+    <p style="margin-top: 0; margin-bottom: 10px; padding: 0">UTC - {{utcOffset}}</p>
     <ion-row *ngFor="let price of prices" [ngClass]="[isCurrentHour(price) ? 'current-hour' : '']">
       <ion-col class="ion-text-left">{{ price.time | date:'HH:mm' }}</ion-col>
       <ion-col class="ion-text-right" [ngClass]="[price.fuel < 600 ? 'green' : price.fuel > 1300 ? 'red' : 'white']">{{ price.fuel }}</ion-col>

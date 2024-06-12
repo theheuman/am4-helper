@@ -1,2 +1,1 @@
-* Show actual timezone instead of (local time)
 * convert guides to markdown

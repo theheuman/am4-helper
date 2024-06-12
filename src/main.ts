@@ -7,6 +7,8 @@ import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 import { provideServiceWorker } from '@angular/service-worker';
+import {provideMarkdown} from "ngx-markdown";
+import {HttpClient, provideHttpClient} from "@angular/common/http";
 
 if (environment.production) {
   enableProdMode();
@@ -20,6 +22,8 @@ bootstrapApplication(AppComponent, {
     provideServiceWorker('ngsw-worker.js', {
         enabled: !isDevMode(),
         registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    provideHttpClient(),
+    provideMarkdown({ loader: HttpClient }),
 ],
 });

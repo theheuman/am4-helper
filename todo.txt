@@ -1,3 +1,2 @@
-* display flights per day, pax capacity, and realism only if demand is entered
 * Show actual timezone instead of (local time)
 * convert guides to markdown

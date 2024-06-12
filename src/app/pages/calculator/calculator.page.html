@@ -38,12 +38,14 @@
         <ion-input (ionChange)="updateDemand($event, 'f')" type="number" />
       </div>
     </div>
-    <ion-label>Flights per day</ion-label>
-    <ion-input (ionChange)="updateFlights($event)" type="number" [value]="flightsPerDay" />
-    <ion-label>Passenger capacity</ion-label>
-    <ion-input style="margin-bottom: 20px" (ionChange)="updateSeats($event)" type="number" [value]="totalSeats" />
+    <ng-container *ngIf="demand">
+      <ion-label>Flights per day</ion-label>
+      <ion-input (ionChange)="updateFlights($event)" type="number" [value]="flightsPerDay" />
+      <ion-label>Passenger capacity</ion-label>
+      <ion-input style="margin-bottom: 20px" (ionChange)="updateSeats($event)" type="number" [value]="totalSeats" />
+      <ion-toggle (ionChange)="updateLounge($event)" [checked]="hasLounge">Exclusive Lounge</ion-toggle>
+    </ng-container>
     <ion-toggle (ionChange)="updateMode($event)">Realism</ion-toggle>
-    <ion-toggle (ionChange)="updateLounge($event)" [checked]="hasLounge">Exclusive Lounge</ion-toggle>
     <ion-button type="submit" (click)="calculate()">
       Calculate
     </ion-button>

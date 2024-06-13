@@ -1,6 +1,6 @@
-* add optimization algorithm to seat allotment
 * put on firebase
 * vanity url
+  * am4.theheuman.com?
 
 -- above tasks must be completed before release --
 

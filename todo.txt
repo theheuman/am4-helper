@@ -1,4 +1,8 @@
 * add optimization algorithm to seat allotment
+* put on firebase
+* vanity url
 
-* make pressing guides more intuitive
+-- above tasks must be completed before release --
+
+* make opening/closing guides more intuitive
 * make demand part of calculator more intuitive

@@ -1,8 +1,2 @@
-* put on firebase
-* vanity url
-  * am4.theheuman.com?
-
--- above tasks must be completed before release --
-
 * make opening/closing guides more intuitive
 * make demand part of calculator more intuitive

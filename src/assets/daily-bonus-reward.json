@@ -1,0 +1,68 @@
+[
+  {
+    "date": "2024-06-22",
+    "type": "Speed boost",
+    "amount": 4,
+    "unit": "x"
+  },
+  {
+    "date": "2024-06-23",
+    "type": "Speed boost",
+    "amount": 4,
+    "unit": "x"
+  },
+  {
+    "date": "2024-06-24",
+    "type": "Speed boost",
+    "amount": 4,
+    "unit": "x"
+  },
+  {
+    "date": "2024-06-25",
+    "type": "Wear reduction",
+    "amount": 5,
+    "unit": "%"
+  },
+  {
+    "date": "2024-06-26",
+    "type": "Morale Boost",
+    "amount": 2,
+    "unit": "%"
+  },
+  {
+    "date": "2024-06-27",
+    "type": "Morale Boost",
+    "amount": 2,
+    "unit": "%"
+  },
+  {
+    "date": "2024-06-28",
+    "type": "A check delay",
+    "amount": 10,
+    "unit": "Hours"
+  },
+  {
+    "date": "2024-06-30",
+    "type": "Morale Boost",
+    "amount": 2,
+    "unit": "%"
+  },
+  {
+    "date": "2024-07-01",
+    "type": "Fuel discount",
+    "amount": 25,
+    "unit": "%"
+  },
+  {
+    "date": "2024-07-02",
+    "type": "A check delay",
+    "amount": 10,
+    "unit": "Hours"
+  },
+  {
+    "date": "2024-07-03",
+    "type": "Morale Boost",
+    "amount": 2,
+    "unit": "%"
+  }
+]

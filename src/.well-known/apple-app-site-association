@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "9QQ2DQ9Z7U.com.mho.reflections",
+        "paths": ["*", "NOT /login"]
+      }
+    ]
+  }
+}

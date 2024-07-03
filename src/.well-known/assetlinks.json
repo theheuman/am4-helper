@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.mho.reflections",
+      "sha256_cert_fingerprints":
+        ["2A:86:8D:68:B9:F6:AA:DD:7D:2A:61:D5:56:CD:75:5F:AE:3E:ED:73:67:1D:73:CC:16:75:33:6E:C4:8E:F5:7C"]
+    }
+  }
+]

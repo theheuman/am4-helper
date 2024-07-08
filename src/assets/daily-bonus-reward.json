@@ -64,5 +64,37 @@
     "type": "Morale Boost",
     "amount": 2,
     "unit": "%"
+  },
+
+
+  {
+    "date": "2024-07-04",
+    "type": "Hangar Price Reduction",
+    "amount": 5,
+    "unit": "%"
+  },
+  {
+    "date": "2024-07-05",
+    "type": "Hangar Price Reduction",
+    "amount": 5,
+    "unit": "%"
+  },
+  {
+    "date": "2024-07-06",
+    "type": "Marketing Price Reduction",
+    "amount": 10,
+    "unit": "%"
+  },
+  {
+    "date": "2024-07-07",
+    "type": "Hangar Price Reduction",
+    "amount": 5,
+    "unit": "%"
+  },
+  {
+    "date": "2024-07-08",
+    "type": "Wear Reduction",
+    "amount": 5,
+    "unit": "%"
   }
 ]
